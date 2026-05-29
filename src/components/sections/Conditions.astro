@@ -1,0 +1,57 @@
+---
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../../i18n/utils';
+import Icon from '../visual/Icon.astro';
+import { conditionIcons } from '../../icons';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const localize = useTranslatedPath(lang);
+---
+
+<section id="conditions" class="scroll-mt-24 bg-paper-2 py-20 lg:py-28">
+  <div class="mx-auto max-w-6xl px-5 sm:px-8">
+    <div class="reveal max-w-2xl">
+      <p class="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.16em] text-clay-700">
+        <span class="h-px w-8 bg-clay-500" aria-hidden="true"></span>
+        {t.conditions.eyebrow}
+      </p>
+      <h2 class="font-display mt-5 text-[clamp(2.2rem,5.5vw,4rem)] font-bold text-ink">
+        {t.conditions.title}
+      </h2>
+      <p class="mt-5 text-lg text-ink-soft">{t.conditions.subtitle}</p>
+    </div>
+
+    <ul role="list" class="mt-14 grid grid-cols-1 border-t border-ink/12 sm:grid-cols-2 sm:gap-x-14">
+      {
+        t.conditions.items.map((item, i) => (
+          <li class="reveal border-b border-ink/12" style={`--reveal-delay:${(i % 2) * 80}ms`}>
+            <a
+              href={`${localize()}#contact`}
+              class="group flex items-start gap-5 py-7 transition-colors"
+            >
+              <span class="mt-0.5 flex h-12 w-12 flex-none items-center justify-center rounded-full bg-clay-50 text-clay-600 shadow-[var(--shadow-soft)] ring-1 ring-clay-100 transition-colors group-hover:bg-clay-600 group-hover:text-paper">
+                <Icon paths={conditionIcons[i]} class="h-5 w-5" />
+              </span>
+              <span class="flex-1">
+                <span class="flex items-center gap-2">
+                  <span class="text-lg font-semibold text-ink transition-colors group-hover:text-clay-700">
+                    {item.title}
+                  </span>
+                  <span
+                    class="translate-x-[-4px] text-clay-600 opacity-0 transition duration-200 group-hover:translate-x-0 group-hover:opacity-100"
+                    aria-hidden="true"
+                  >
+                    →
+                  </span>
+                </span>
+                <span class="mt-1 block text-sm leading-relaxed text-ink-soft">
+                  {item.description}
+                </span>
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

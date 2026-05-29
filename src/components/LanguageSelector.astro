@@ -1,0 +1,39 @@
+---
+import { languages, type Lang } from '../i18n/config';
+import { getLangFromUrl, getLocalizedPathname, useTranslations } from '../i18n/utils';
+
+const currentLang = getLangFromUrl(Astro.url);
+const t = useTranslations(currentLang);
+const entries = Object.entries(languages) as [Lang, string][];
+---
+
+{/* Accessible, no-JS language switcher: labelled nav of links, aria-current on
+    the active one, full language name exposed to screen readers. */}
+<nav aria-label={t.langSwitcher.label} class="shrink-0">
+  <ul role="list" class="flex items-center gap-0.5 rounded-full bg-paper-3/70 p-0.5">
+    {
+      entries.map(([code, name]) => {
+        const isActive = code === currentLang;
+        return (
+          <li>
+            <a
+              href={getLocalizedPathname(Astro.url.pathname, code)}
+              hreflang={code}
+              lang={code}
+              aria-current={isActive ? 'true' : undefined}
+              class:list={[
+                'flex min-h-11 items-center justify-center rounded-full px-3.5 text-sm font-semibold uppercase tracking-wide transition-colors',
+                isActive
+                  ? 'bg-ink text-paper'
+                  : 'text-ink-soft hover:text-ink',
+              ]}
+            >
+              <span class="sr-only">{name}</span>
+              <span aria-hidden="true">{code}</span>
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+</nav>

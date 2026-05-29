@@ -1,0 +1,189 @@
+---
+import { actions, isInputError } from 'astro:actions';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// No-JS fallback path: read the last submission result on reload.
+const result = Astro.getActionResult(actions.lead);
+const success = Boolean(result && !result.error);
+const fieldErrors = result && isInputError(result.error) ? result.error.fields : undefined;
+const deliveryError = Boolean(result?.error && !isInputError(result.error));
+
+const field =
+  'mt-1.5 block w-full rounded-xl border border-ink/15 bg-paper px-3.5 py-3 text-ink shadow-sm outline-none transition-colors placeholder:text-ink-faint focus:border-clay-500 focus:ring-2 focus:ring-clay-100 aria-[invalid]:border-danger aria-[invalid]:ring-danger/15';
+const label = 'block text-sm font-semibold text-ink';
+const errorText = 'mt-1.5 text-sm font-medium text-danger';
+---
+
+<form id="lead-form" method="POST" action={actions.lead} class="space-y-5">
+  <p
+    id="lead-success"
+    role="status"
+    hidden={!success}
+    class="rounded-xl border border-success-border bg-success-bg px-4 py-3 text-sm font-medium text-success"
+  >
+    {t.lead.success}
+  </p>
+  <p
+    id="lead-error"
+    role="alert"
+    tabindex="-1"
+    hidden={!deliveryError}
+    class="rounded-xl border border-danger-border bg-danger-bg px-4 py-3 text-sm font-medium text-danger"
+  >
+    {t.lead.error}
+  </p>
+
+  <input type="hidden" name="locale" value={lang} />
+
+  {/* Honeypot: off-screen, hidden from humans and assistive tech. */}
+  <div class="absolute -left-[9999px]" aria-hidden="true">
+    <label>
+      Company
+      <input type="text" name="company" tabindex="-1" autocomplete="off" />
+    </label>
+  </div>
+
+  <div>
+    <label for="lead-name" class={label}>
+      {t.lead.name} <span class="text-danger" aria-hidden="true">*</span>
+    </label>
+    <input
+      id="lead-name"
+      type="text"
+      name="name"
+      autocomplete="name"
+      required
+      aria-describedby="lead-name-error"
+      aria-invalid={fieldErrors?.name ? 'true' : undefined}
+      class={field}
+    />
+    <p id="lead-name-error" class={errorText} hidden={!fieldErrors?.name}>{t.lead.errors.name}</p>
+  </div>
+
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div>
+      <label for="lead-email" class={label}>
+        {t.lead.email} <span class="text-danger" aria-hidden="true">*</span>
+      </label>
+      <input
+        id="lead-email"
+        type="email"
+        name="email"
+        autocomplete="email"
+        required
+        aria-describedby="lead-email-error"
+        aria-invalid={fieldErrors?.email ? 'true' : undefined}
+        class={field}
+      />
+      <p id="lead-email-error" class={errorText} hidden={!fieldErrors?.email}>{t.lead.errors.email}</p>
+    </div>
+    <div>
+      <label for="lead-phone" class={label}>
+        {t.lead.phone} <span class="text-danger" aria-hidden="true">*</span>
+      </label>
+      <input
+        id="lead-phone"
+        type="tel"
+        name="phone"
+        autocomplete="tel"
+        required
+        aria-describedby="lead-phone-error"
+        aria-invalid={fieldErrors?.phone ? 'true' : undefined}
+        class={field}
+      />
+      <p id="lead-phone-error" class={errorText} hidden={!fieldErrors?.phone}>{t.lead.errors.phone}</p>
+    </div>
+  </div>
+
+  <div>
+    <label for="lead-message" class={label}>{t.lead.message}</label>
+    <textarea id="lead-message" name="message" rows="3" class={field}></textarea>
+  </div>
+
+  <button
+    type="submit"
+    data-idle={t.lead.submit}
+    data-sending={t.lead.submitting}
+    class="w-full rounded-full bg-clay-600 px-5 py-3.5 text-base font-semibold text-paper shadow-sm transition-[background-color,transform] duration-200 ease-[cubic-bezier(0.25,1,0.5,1)] hover:bg-clay-700 active:scale-[0.99] disabled:opacity-70"
+  >
+    {t.lead.submit}
+  </button>
+</form>
+
+<script>
+  import { actions, isInputError } from 'astro:actions';
+
+  // Re-bind on every View Transition: the form node is swapped on navigation,
+  // so a fresh listener on the new node is correct (no listener stacking).
+  function bindLeadForm() {
+    const form = document.getElementById('lead-form') as HTMLFormElement | null;
+    if (!form) return;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const successEl = document.getElementById('lead-success');
+    const errorEl = document.getElementById('lead-error');
+    const fields = ['name', 'email', 'phone'] as const;
+
+    const inputFor = (f: string) => form.elements.namedItem(f) as HTMLInputElement | null;
+    const errorElFor = (f: string) => document.getElementById(`lead-${f}-error`);
+
+    function resetMessages() {
+      successEl?.setAttribute('hidden', '');
+      errorEl?.setAttribute('hidden', '');
+      for (const f of fields) {
+        inputFor(f)?.removeAttribute('aria-invalid');
+        errorElFor(f)?.setAttribute('hidden', '');
+      }
+    }
+
+    // Progressive enhancement: submit via the Action so a validation error
+    // never reloads the page (preserving everything the user typed).
+    // The submit event only fires once native constraints (required, email,
+    // tel) pass, so here we just hand off to the Action without reloading.
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      resetMessages();
+
+      const idle = button?.dataset.idle ?? button?.textContent ?? '';
+      if (button) {
+        button.disabled = true;
+        button.textContent = button.dataset.sending ?? idle;
+      }
+
+      const { data, error } = await actions.lead(new FormData(form));
+
+      if (button) {
+        button.disabled = false;
+        button.textContent = idle;
+      }
+
+      if (error) {
+        if (isInputError(error)) {
+          let firstBad: HTMLInputElement | null = null;
+          for (const f of fields) {
+            if (error.fields?.[f]?.length) {
+              inputFor(f)?.setAttribute('aria-invalid', 'true');
+              errorElFor(f)?.removeAttribute('hidden');
+              if (!firstBad) firstBad = inputFor(f);
+            }
+          }
+          firstBad?.focus();
+        } else {
+          errorEl?.removeAttribute('hidden');
+          errorEl?.focus();
+        }
+        return;
+      }
+
+      if (data?.ok) {
+        successEl?.removeAttribute('hidden');
+        form.reset();
+        successEl?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      }
+    });
+  }
+
+  document.addEventListener('astro:page-load', bindLeadForm);
+</script>

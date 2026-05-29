@@ -1,0 +1,71 @@
+---
+/**
+ * Bespoke hero visual (no photography). Layered, warm, abstract:
+ *  - a "sunrise" clay/ochre gradient panel
+ *  - concentric arcs radiating from the lower-left = relief spreading outward
+ *  - a single confident curve sweeping up to a point = movement, the path back
+ *  - soft blurred blobs for depth (global grain adds the texture on top)
+ * Fully decorative, so the whole thing is aria-hidden.
+ */
+---
+
+<div class="media-in relative" style="--media-delay:140ms" aria-hidden="true">
+  {/* Offset panel behind for depth + asymmetry */}
+  <div
+    class="absolute -bottom-5 -right-4 -z-10 h-full w-full rounded-[1.75rem] rounded-tr-[5rem] bg-clay-100"
+  >
+  </div>
+
+  <div
+    class="relative aspect-[4/5] w-full overflow-hidden rounded-[1.75rem] rounded-tr-[5rem] shadow-[var(--shadow-lift)]"
+    style="background-image: linear-gradient(155deg, var(--color-ochre-200), var(--color-clay-300) 50%, var(--color-clay-500) 100%);"
+  >
+    {/* Soft blobs = depth */}
+    <div
+      class="absolute -left-12 top-8 h-44 w-44 rounded-full opacity-60 blur-2xl"
+      style="background: var(--color-ochre-100);"
+    >
+    </div>
+    <div
+      class="absolute -bottom-10 right-0 h-60 w-60 rounded-full opacity-40 blur-3xl"
+      style="background: var(--color-clay-700);"
+    >
+    </div>
+
+    <svg
+      viewBox="0 0 400 500"
+      preserveAspectRatio="xMidYMid slice"
+      class="absolute inset-0 h-full w-full"
+    >
+      {/* Concentric relief arcs (light) */}
+      <g fill="none" stroke="currentColor" stroke-width="2" style="color: var(--color-paper);">
+        <circle cx="108" cy="384" r="66" stroke-opacity="0.5"></circle>
+        <circle cx="108" cy="384" r="122" stroke-opacity="0.38"></circle>
+        <circle cx="108" cy="384" r="182" stroke-opacity="0.26"></circle>
+        <circle cx="108" cy="384" r="248" stroke-opacity="0.16"></circle>
+        <circle cx="108" cy="384" r="320" stroke-opacity="0.09"></circle>
+      </g>
+      {/* Movement line sweeping up to a destination point */}
+      <path
+        d="M26 474 C 150 388, 158 196, 366 66"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-opacity="0.55"
+        style="color: var(--color-espresso);"
+      >
+      </path>
+      <circle cx="366" cy="66" r="8" style="fill: var(--color-paper);"></circle>
+      <circle
+        cx="366"
+        cy="66"
+        r="8"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-opacity="0.6"
+        style="color: var(--color-espresso);"></circle>
+    </svg>
+  </div>
+</div>

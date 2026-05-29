@@ -1,0 +1,250 @@
+@import "tailwindcss";
+
+/*
+  PainManagementer — warm + credible.
+  Color strategy: Committed. A warm clay carries the identity over warm "oat"
+  paper and warm near-black ink. No clinical cyan, no spa sage. All OKLCH,
+  chroma eased toward the lightness extremes.
+*/
+@theme {
+  /* Warm paper grounds (tinted toward the clay hue, never #fff) */
+  --color-paper: oklch(0.972 0.012 73);
+  --color-paper-2: oklch(0.945 0.018 71);
+  --color-paper-3: oklch(0.915 0.022 70);
+
+  /* Warm ink (never #000) */
+  --color-ink: oklch(0.245 0.024 58);
+  --color-ink-soft: oklch(0.46 0.022 56);
+  /* Darkened from 0.6 to clear WCAG AA (4.5:1) on both paper and paper-2 */
+  --color-ink-faint: oklch(0.5 0.02 56);
+
+  /* Semantic danger (warm-tinted, not a stock cool red) for form errors */
+  --color-danger: oklch(0.515 0.17 28);
+  --color-danger-bg: oklch(0.955 0.03 32);
+  --color-danger-border: oklch(0.83 0.08 30);
+
+  /* Espresso: warm roasted near-black for the drenched bands */
+  --color-espresso: oklch(0.255 0.038 46);
+  --color-espresso-2: oklch(0.305 0.04 46);
+
+  /* Brand: clay / burnt sienna (intensified — the single strong accent) */
+  --color-clay-50: oklch(0.955 0.024 48);
+  --color-clay-100: oklch(0.91 0.05 47);
+  --color-clay-200: oklch(0.85 0.085 46);
+  --color-clay-300: oklch(0.78 0.115 47);
+  --color-clay-400: oklch(0.7 0.15 47);
+  --color-clay-500: oklch(0.63 0.17 46);
+  --color-clay-600: oklch(0.565 0.168 44);
+  --color-clay-700: oklch(0.48 0.142 42);
+  --color-clay-900: oklch(0.33 0.088 44);
+
+  /* Ochre / amber — secondary warm accent (gradients, graphics, warning state).
+     Sits ~35° from clay so the two harmonize instead of clashing. */
+  --color-ochre-100: oklch(0.93 0.052 84);
+  --color-ochre-200: oklch(0.87 0.085 83);
+  --color-ochre-300: oklch(0.8 0.115 82);
+  --color-ochre-400: oklch(0.73 0.13 80);
+  --color-ochre-500: oklch(0.66 0.135 78);
+  --color-ochre-700: oklch(0.5 0.1 76);
+
+  /* Success — muted warm leaf green, a genuine "go" state for the form. */
+  --color-success: oklch(0.5 0.095 138);
+  --color-success-bg: oklch(0.95 0.03 140);
+  --color-success-border: oklch(0.82 0.07 140);
+
+  /* Warm-tinted soft shadows (depth that reads as light, not boxes) */
+  --shadow-soft: 0 6px 28px -10px oklch(0.33 0.088 44 / 0.2);
+  --shadow-lift: 0 18px 48px -16px oklch(0.33 0.088 44 / 0.26);
+
+  /* Fonts (loaded via @fontsource in the Layout) */
+  --font-display: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Hanken Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
+
+  /* Motion — custom easing + a small token set, all durations <300ms */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --dur-fast: 130ms; /* press / instant feedback */
+  --dur: 200ms; /* hover, links, state changes */
+  --dur-reveal: 280ms; /* entrances / scroll reveals */
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    font-optical-sizing: auto;
+    font-kerning: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Even out display line breaks; tidy prose endings. */
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--color-clay-500);
+    color: var(--color-paper);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-clay-600);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Open the disclosure marker styling for the practical-questions block */
+  summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+@layer components {
+  /* Display type: tighter tracking, optical weight for big headlines */
+  .font-display {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 0.98;
+  }
+
+  /* Body text sitting on the espresso drench: compensate the three axes
+     (line-height, tracking, perceived weight) so light type doesn't thin out. */
+  .on-dark {
+    letter-spacing: 0.01em;
+    line-height: 1.65;
+  }
+
+  /* Animated underline for text links: a hairline that wipes in from the left
+     on hover/focus. Purposeful affordance, not decoration. */
+  .link-underline {
+    position: relative;
+  }
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 1.5px;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur) var(--ease-out-quart);
+  }
+  .link-underline:hover::after,
+  .link-underline:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  /* Warm gradient surfaces for graphic panels (clay <-> ochre). */
+  .surface-warm {
+    background-image: linear-gradient(150deg, var(--color-ochre-100), var(--color-clay-100) 78%);
+  }
+  .surface-espresso {
+    background-image: linear-gradient(160deg, var(--color-espresso-2), var(--color-espresso) 70%);
+  }
+
+  /* Ghosted outline type used as a background graphic element (decorative). */
+  .text-ghost {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--color-clay-200);
+    text-stroke: 1.5px var(--color-clay-200);
+    user-select: none;
+  }
+}
+
+@layer utilities {
+  /* Very subtle film grain over the whole page for tactile depth. Static,
+     decorative, pointer-events none; sits under the sticky header (z-40). */
+  .grain-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 160px 160px;
+  }
+}
+
+@layer utilities {
+  /* Scroll reveal — transform + opacity only (never layout props). */
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity var(--dur-reveal) var(--ease-out-expo),
+      transform var(--dur-reveal) var(--ease-out-expo);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Hero media: a subtle scale + fade on load (above the fold, so it plays
+     immediately). Applied to the wrapper so it never fights the image hover. */
+  @keyframes media-in {
+    from {
+      opacity: 0;
+      transform: scale(1.035);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  .media-in {
+    animation: media-in var(--dur-reveal) var(--ease-out-expo) both;
+    animation-delay: var(--media-delay, 120ms);
+  }
+
+  /* Language switch / internal nav crossfade (Astro View Transitions).
+     Kept brief and on our easing. */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 220ms;
+    animation-timing-function: var(--ease-out-quart);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .reveal.is-visible {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .media-in {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+    .link-underline::after {
+      transition: none;
+    }
+    html {
+      scroll-behavior: auto;
+    }
+    /* Disable the view-transition crossfade entirely. */
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+      animation: none !important;
+    }
+  }
+}

@@ -1,0 +1,51 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import Icon from '../visual/Icon.astro';
+import { serviceIcons } from '../../icons';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<section id="treatments" class="scroll-mt-24 py-20 lg:py-28">
+  <div class="mx-auto max-w-6xl px-5 sm:px-8">
+    <div class="reveal grid gap-6 lg:grid-cols-[1.2fr_1fr] lg:items-end lg:gap-16">
+      <div>
+        <p class="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.16em] text-clay-700">
+          <span class="h-px w-8 bg-clay-500" aria-hidden="true"></span>
+          {t.treatments.eyebrow}
+        </p>
+        <h2 class="font-display mt-5 text-[clamp(2.2rem,5.5vw,4rem)] font-bold text-ink">
+          {t.treatments.title}
+        </h2>
+      </div>
+      <p class="text-lg text-ink-soft lg:pb-2">{t.treatments.subtitle}</p>
+    </div>
+
+    <div class="mt-16 border-b border-ink/12">
+      {
+        t.treatments.items.map((item, i) => (
+          <article
+            class="reveal relative grid items-start gap-x-6 gap-y-4 border-t border-ink/12 py-9 sm:grid-cols-[auto_1fr] lg:gap-x-9"
+            style={`--reveal-delay:${(i % 2) * 80}ms`}
+          >
+            {/* Ghost index numeral: type as a background graphic */}
+            <span
+              class="text-ghost pointer-events-none absolute right-1 top-1/2 hidden -translate-y-1/2 font-display text-[clamp(3.5rem,7vw,6rem)] font-extrabold leading-none sm:block"
+              aria-hidden="true"
+            >
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <span class="flex h-14 w-14 flex-none items-center justify-center rounded-2xl bg-clay-50 text-clay-700 shadow-[var(--shadow-soft)] ring-1 ring-clay-100">
+              <Icon paths={serviceIcons[i]} class="h-7 w-7" />
+            </span>
+            <div class="relative max-w-2xl">
+              <h3 class="text-xl font-semibold text-ink sm:text-2xl">{item.title}</h3>
+              <p class="mt-2.5 text-lg leading-relaxed text-ink-soft">{item.description}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

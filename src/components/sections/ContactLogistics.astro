@@ -1,0 +1,83 @@
+---
+import LeadForm from '../LeadForm.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { insurers, contact } from '../../data/site';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<section id="contact" class="scroll-mt-24 py-20 lg:py-28">
+  <div class="mx-auto grid max-w-6xl gap-12 px-5 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+    {/* Primary action: the form */}
+    <div class="reveal">
+      <p class="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.16em] text-clay-700">
+        <span class="h-px w-8 bg-clay-500" aria-hidden="true"></span>
+        {t.nav.contact}
+      </p>
+      <h2 class="font-display mt-5 text-[clamp(2.2rem,5.5vw,4rem)] font-bold text-ink">
+        {t.lead.heading}
+      </h2>
+      <p class="mt-5 text-lg text-ink-soft">{t.lead.subheading}</p>
+
+      <div class="mt-9 rounded-3xl border border-ink/10 bg-paper p-6 shadow-[var(--shadow-lift)] sm:p-8">
+        <LeadForm />
+      </div>
+    </div>
+
+    {/* Logistics: location, insurers, practical questions */}
+    <div class="reveal flex flex-col gap-9 lg:pt-4" style="--reveal-delay:100ms">
+      <div>
+        <h3 class="text-lg font-semibold text-ink">{t.logistics.locationHeading}</h3>
+        <address class="mt-3 not-italic leading-relaxed text-ink-soft">
+          {contact.addressLines.map((line) => <span class="block">{line}</span>)}
+          <a
+            href={`tel:${contact.phone.replace(/\s/g, '')}`}
+            class="mt-2 block font-medium text-clay-700 underline-offset-4 hover:underline"
+          >
+            {contact.phone}
+          </a>
+          <a
+            href={`mailto:${contact.email}`}
+            class="block font-medium text-clay-700 underline-offset-4 hover:underline"
+          >
+            {contact.email}
+          </a>
+        </address>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-semibold text-ink">{t.logistics.insuranceHeading}</h3>
+        <ul role="list" class="mt-3 flex flex-wrap gap-2">
+          {
+            insurers.map((name) => (
+              <li class="rounded-full border border-ink/12 px-3.5 py-1.5 text-sm text-ink-soft">
+                {name}
+              </li>
+            ))
+          }
+        </ul>
+        <p class="mt-3 text-sm text-ink-faint">{t.logistics.insuranceNote}</p>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-semibold text-ink">{t.logistics.questionsHeading}</h3>
+        <div class="mt-3 divide-y divide-ink/12 border-y border-ink/12">
+          {
+            t.logistics.questions.map((q) => (
+              <details class="group">
+                <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-4 font-medium text-ink transition-colors hover:text-clay-700">
+                  {q.question}
+                  <span class="flex-none text-xl text-clay-600 transition-transform duration-300 group-open:rotate-45" aria-hidden="true">
+                    +
+                  </span>
+                </summary>
+                <p class="pb-4 leading-relaxed text-ink-soft">{q.answer}</p>
+              </details>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

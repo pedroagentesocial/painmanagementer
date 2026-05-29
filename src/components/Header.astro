@@ -1,0 +1,52 @@
+---
+import LanguageSelector from './LanguageSelector.astro';
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const localize = useTranslatedPath(lang);
+
+const navItems = [
+  { href: `${localize()}#conditions`, label: t.nav.conditions },
+  { href: `${localize()}#treatments`, label: t.nav.treatments },
+  { href: `${localize()}#why`, label: t.nav.why },
+  { href: `${localize()}#how`, label: t.nav.how },
+];
+---
+
+<header class="sticky top-0 z-50 border-b border-ink/8 bg-paper/85 backdrop-blur-md">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-6 px-5 py-3.5 sm:px-8">
+    <a
+      href={localize()}
+      class="font-display shrink-0 text-lg text-ink sm:text-xl"
+      style="letter-spacing:-0.03em"
+    >
+      pain<span class="text-clay-600">managementer</span>
+    </a>
+
+    <nav aria-label="Primary" class="hidden lg:block">
+      <ul role="list" class="flex items-center gap-7 text-sm font-medium text-ink-soft">
+        {
+          navItems.map((item) => (
+            <li>
+              <a href={item.href} class="link-underline transition-colors hover:text-clay-700">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <LanguageSelector />
+      <a
+        href={`${localize()}#contact`}
+        class="inline-flex min-h-11 items-center rounded-full bg-clay-600 px-4 text-sm font-semibold text-paper shadow-sm transition-[background-color,transform] duration-200 ease-[cubic-bezier(0.25,1,0.5,1)] hover:bg-clay-700 active:scale-[0.98]"
+      >
+        <span class="sm:hidden">{t.nav.bookShort}</span>
+        <span class="hidden sm:inline">{t.nav.book}</span>
+      </a>
+    </div>
+  </div>
+</header>

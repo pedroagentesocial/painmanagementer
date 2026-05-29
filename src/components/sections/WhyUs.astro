@@ -1,0 +1,69 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<section id="why" class="surface-espresso relative scroll-mt-24 overflow-hidden py-20 text-paper lg:py-28">
+  {/* Relief radiating from the corner (decorative) */}
+  <svg
+    class="pointer-events-none absolute -right-24 -top-24 h-[30rem] w-[30rem] text-ochre-400"
+    viewBox="0 0 400 400"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    aria-hidden="true"
+  >
+    <circle cx="320" cy="80" r="58" stroke-opacity="0.42"></circle>
+    <circle cx="320" cy="80" r="108" stroke-opacity="0.3"></circle>
+    <circle cx="320" cy="80" r="164" stroke-opacity="0.18"></circle>
+    <circle cx="320" cy="80" r="226" stroke-opacity="0.1"></circle>
+  </svg>
+  <div class="relative mx-auto grid max-w-6xl gap-12 px-5 sm:px-8 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
+    <div class="reveal lg:sticky lg:top-28 lg:self-start">
+      <p class="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.16em] text-clay-300">
+        <span class="h-px w-8 bg-clay-400" aria-hidden="true"></span>
+        {t.whyUs.eyebrow}
+      </p>
+      <h2 class="font-display mt-5 text-[clamp(2.2rem,5.5vw,4rem)] font-bold text-paper">
+        {t.whyUs.title}
+      </h2>
+      <p class="on-dark mt-5 max-w-md text-lg text-paper/75">{t.whyUs.subtitle}</p>
+
+      <div class="mt-10 flex flex-wrap gap-x-12 gap-y-6 border-t border-paper/15 pt-9">
+        {
+          t.whyUs.stats.map((stat) => (
+            <div>
+              <div class="font-display text-[clamp(2.5rem,4vw,3.25rem)] font-extrabold leading-none text-clay-300">
+                {stat.value}
+              </div>
+              <div class="mt-2 text-sm text-paper/60">{stat.label}</div>
+            </div>
+          ))
+        }
+      </div>
+      <p class="mt-6 inline-block rounded border border-dashed border-ochre-400/50 px-2 py-1 text-xs text-ochre-200">
+        ⚠ {t.whyUs.placeholderNote}
+      </p>
+    </div>
+
+    <ul role="list" class="divide-y divide-paper/12 border-y border-paper/12">
+      {
+        t.whyUs.points.map((point, i) => (
+          <li class="reveal flex gap-5 py-7" style={`--reveal-delay:${i * 70}ms`}>
+            <span class="mt-0.5 flex h-9 w-9 flex-none items-center justify-center rounded-full bg-clay-500 text-paper" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                <path d="M5 13l4 4L19 7" />
+              </svg>
+            </span>
+            <div>
+              <h3 class="text-lg font-semibold text-paper">{point.title}</h3>
+              <p class="on-dark mt-1.5 text-paper/70">{point.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

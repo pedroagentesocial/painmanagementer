@@ -1,0 +1,23 @@
+---
+// Server-rendered so the lead form can read its submission result inline.
+export const prerender = false;
+
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/sections/Hero.astro';
+import Conditions from '../../components/sections/Conditions.astro';
+import Treatments from '../../components/sections/Treatments.astro';
+import WhyUs from '../../components/sections/WhyUs.astro';
+import HowItWorks from '../../components/sections/HowItWorks.astro';
+import Testimonials from '../../components/sections/Testimonials.astro';
+import ContactLogistics from '../../components/sections/ContactLogistics.astro';
+---
+
+<Layout>
+  <Hero />
+  <Conditions />
+  <Treatments />
+  <WhyUs />
+  <HowItWorks />
+  <Testimonials />
+  <ContactLogistics />
+</Layout>

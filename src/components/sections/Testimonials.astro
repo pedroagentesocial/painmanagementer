@@ -1,0 +1,76 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+function initials(name: string): string {
+  return name
+    .split(/\s+/)
+    .map((w) => w[0] ?? '')
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
+}
+
+const [featured, ...rest] = t.testimonials.items;
+---
+
+<section id="testimonials" class="scroll-mt-24 bg-paper-2 py-20 lg:py-28">
+  <div class="mx-auto max-w-6xl px-5 sm:px-8">
+    <div class="reveal flex flex-wrap items-end justify-between gap-4">
+      <div class="max-w-2xl">
+        <p class="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.16em] text-clay-700">
+          <span class="h-px w-8 bg-clay-500" aria-hidden="true"></span>
+          {t.testimonials.eyebrow}
+        </p>
+        <h2 class="font-display mt-5 text-[clamp(2.2rem,5.5vw,4rem)] font-bold text-ink">
+          {t.testimonials.title}
+        </h2>
+      </div>
+      <p class="inline-block rounded border border-dashed border-ochre-400/70 px-2 py-1 text-xs text-ink-soft">
+        <span class="text-ochre-700" aria-hidden="true">⚠</span>
+        {t.testimonials.placeholderNote}
+      </p>
+    </div>
+
+    <div class="mt-14 grid gap-x-14 gap-y-12 lg:grid-cols-12">
+      {/* Featured quote */}
+      <figure class="reveal lg:col-span-7">
+        <span class="font-display block text-6xl leading-none text-clay-300" aria-hidden="true">&ldquo;</span>
+        <blockquote class="-mt-4 font-display text-[clamp(1.6rem,3vw,2.4rem)] font-medium leading-tight tracking-tight text-ink">
+          {featured?.quote}
+        </blockquote>
+        <figcaption class="mt-7 flex items-center gap-4">
+          <span class="font-display flex h-14 w-14 flex-none items-center justify-center rounded-full bg-clay-600 text-base text-paper" aria-hidden="true">
+            {initials(featured?.author ?? '')}
+          </span>
+          <span>
+            <span class="block text-lg font-semibold text-ink">{featured?.author}</span>
+            <span class="block text-sm text-ink-faint">{featured?.role}</span>
+          </span>
+        </figcaption>
+      </figure>
+
+      {/* Secondary quotes */}
+      <div class="flex flex-col divide-y divide-ink/12 lg:col-span-5">
+        {
+          rest.map((item, i) => (
+            <figure class="reveal py-6 first:pt-0 last:pb-0" style={`--reveal-delay:${(i + 1) * 90}ms`}>
+              <blockquote class="text-lg leading-relaxed text-ink">{item.quote}</blockquote>
+              <figcaption class="mt-4 flex items-center gap-3">
+                <span class="font-display flex h-10 w-10 flex-none items-center justify-center rounded-full bg-clay-100 text-sm text-clay-700" aria-hidden="true">
+                  {initials(item.author)}
+                </span>
+                <span>
+                  <span class="block font-semibold text-ink">{item.author}</span>
+                  <span class="block text-sm text-ink-faint">{item.role}</span>
+                </span>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

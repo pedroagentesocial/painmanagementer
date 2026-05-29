@@ -1,0 +1,48 @@
+---
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const localize = useTranslatedPath(lang);
+---
+
+<section id="how" class="scroll-mt-24 py-20 lg:py-28">
+  <div class="mx-auto max-w-6xl px-5 sm:px-8">
+    <div class="reveal max-w-2xl">
+      <p class="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.16em] text-clay-700">
+        <span class="h-px w-8 bg-clay-500" aria-hidden="true"></span>
+        {t.howItWorks.eyebrow}
+      </p>
+      <h2 class="font-display mt-5 text-[clamp(2.2rem,5.5vw,4rem)] font-bold text-ink">
+        {t.howItWorks.title}
+      </h2>
+      <p class="mt-5 text-lg text-ink-soft">{t.howItWorks.subtitle}</p>
+    </div>
+
+    <ol class="reveal relative mt-16 grid gap-12 lg:grid-cols-4 lg:gap-8">
+      {/* Connecting line behind the badges (desktop only) */}
+      <div class="absolute left-7 right-7 top-7 hidden h-px bg-clay-200 lg:block" aria-hidden="true"></div>
+      {
+        t.howItWorks.steps.map((step, i) => (
+          <li class="relative">
+            <span class="font-display relative z-10 flex h-14 w-14 items-center justify-center rounded-2xl bg-clay-600 text-2xl font-extrabold text-paper ring-8 ring-paper">
+              {i + 1}
+            </span>
+            <h3 class="mt-6 text-xl font-semibold text-ink">{step.title}</h3>
+            <p class="mt-2 leading-relaxed text-ink-soft">{step.description}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="reveal mt-14">
+      <a
+        href={`${localize()}#contact`}
+        class="group inline-flex items-center gap-2 rounded-full bg-ink px-8 py-4 text-base font-semibold text-paper transition-[background-color,transform] duration-200 hover:-translate-y-0.5 hover:bg-clay-700 active:translate-y-0"
+      >
+        {t.howItWorks.cta}
+        <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</section>
