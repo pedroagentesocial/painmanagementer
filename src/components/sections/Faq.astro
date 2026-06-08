@@ -63,7 +63,7 @@ const faqSchema = {
       {
         questions.map((q, i) => (
           <li class="reveal" style={`--reveal-delay:${i * 60}ms`}>
-            <details class="group">
+            <details class="faq-details group" open={i === 0}>
               <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-left text-lg font-semibold text-ink transition-colors hover:text-clay-700">
                 {q.question}
                 <span
@@ -83,3 +83,29 @@ const faqSchema = {
 
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />
 </section>
+
+<script>
+  // Single-open accordion: exactly one question stays open. Opening one closes
+  // the others; clicking the already-open one keeps it open (never all closed).
+  function initFaq() {
+    const items = Array.from(document.querySelectorAll<HTMLDetailsElement>('.faq-details'));
+    if (!items.length) return;
+    items.forEach((details) => {
+      const summary = details.querySelector('summary');
+      if (!summary || summary.dataset.bound === '1') return;
+      summary.dataset.bound = '1';
+      summary.addEventListener('click', (e) => {
+        if (details.open) {
+          // Already open → keep it open (block the toggle-to-closed).
+          e.preventDefault();
+          return;
+        }
+        // About to open → close the others first.
+        items.forEach((other) => {
+          if (other !== details) other.open = false;
+        });
+      });
+    });
+  }
+  document.addEventListener('astro:page-load', initFaq);
+</script>

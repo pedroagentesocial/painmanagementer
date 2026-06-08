@@ -25,8 +25,22 @@ const visualFor = (i: number) => visuals[i % visuals.length];
 
 // Two groups in one section: service areas + folded-in pain treatments.
 // A single continuous index keeps each card's modal id unique.
-const areas = t.services.items.map((item, i) => ({ ...item, icon: servicesIcons[i] ?? servicesIcons[0] }));
-const procs = t.services.procedures.map((item, i) => ({ ...item, icon: serviceIcons[i] ?? serviceIcons[0] }));
+const areaImages = [
+  '/images/service-imaging.jpg',
+  '/images/service-general.jpg',
+  '/images/service-physio.jpg',
+  '/images/service-mental.jpg',
+  '/images/service-accident.jpg',
+  '/images/service-targeted.jpg',
+];
+const procImages = [
+  '/images/service-injections.jpg',
+  '/images/service-radiofrequency.jpg',
+  '/images/service-neuromodulation.jpg',
+  '/images/service-regenerative.jpg',
+];
+const areas = t.services.items.map((item, i) => ({ ...item, icon: servicesIcons[i] ?? servicesIcons[0], image: areaImages[i] }));
+const procs = t.services.procedures.map((item, i) => ({ ...item, icon: serviceIcons[i] ?? serviceIcons[0], image: procImages[i] }));
 const all = [...areas, ...procs].map((item, i) => ({ ...item, idx: i, visual: visualFor(i) }));
 const areaCards = all.slice(0, areas.length);
 const procCards = all.slice(areas.length);
@@ -67,19 +81,21 @@ const procCards = all.slice(areas.length);
     all.map((service) => (
       <dialog class="service-modal" id={`service-${service.idx}`} aria-labelledby={`service-${service.idx}-title`}>
         <div class="modal-card relative w-full overflow-y-auto rounded-3xl bg-paper">
-          <div class="relative aspect-[16/6] overflow-hidden" style={`background-image:${service.visual}`}>
-            <svg
-              class="pointer-events-none absolute -right-8 -top-12 h-56 w-56 text-white/15"
-              viewBox="0 0 200 200"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
+          <div class="relative aspect-[16/7] overflow-hidden" style={`background-image:${service.visual}`}>
+            {service.image && (
+              <img
+                src={service.image}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                class="absolute inset-0 h-full w-full object-cover"
+              />
+            )}
+            <div
+              class="absolute inset-0"
+              style="background: linear-gradient(to top, rgba(16,42,71,0.6), rgba(16,42,71,0.1) 60%, rgba(16,42,71,0.15));"
               aria-hidden="true"
-            >
-              <circle cx="150" cy="60" r="34" />
-              <circle cx="150" cy="60" r="62" stroke-opacity="0.7" />
-              <circle cx="150" cy="60" r="92" stroke-opacity="0.45" />
-            </svg>
+            />
             <span class="absolute bottom-4 left-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15 text-paper ring-1 ring-white/25 backdrop-blur-sm">
               <Icon paths={service.icon} class="h-7 w-7" />
             </span>

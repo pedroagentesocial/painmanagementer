@@ -349,6 +349,24 @@ export const es = {
         author: 'Lucía M.',
         role: 'Migraña crónica',
       },
+      {
+        quote:
+          'El equipo me escuchó cuando nadie más lo hacía. Recuperé la confianza en mi tratamiento.',
+        author: 'Ana P.',
+        role: 'Dolor de cuello',
+      },
+      {
+        quote:
+          'La radiofrecuencia me quitó la ciática que arrastraba desde hacía años. Volví a dormir bien.',
+        author: 'Jorge L.',
+        role: 'Ciática',
+      },
+      {
+        quote:
+          'Volví a caminar sin molestias tras la rehabilitación. Trato cercano y muy profesional.',
+        author: 'Elena V.',
+        role: 'Dolor postquirúrgico',
+      },
     ],
   },
   lead: {

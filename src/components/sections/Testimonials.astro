@@ -13,7 +13,8 @@ function initials(name: string): string {
     .toUpperCase();
 }
 
-const [featured, ...rest] = t.testimonials.items;
+const items = t.testimonials.items;
+const avatarBg = ['bg-clay-600', 'bg-ochre-500', 'bg-espresso-2', 'bg-clay-500', 'bg-ochre-700', 'bg-clay-700'];
 ---
 
 <section id="testimonials" class="scroll-mt-24 bg-paper-2 py-20 lg:py-28">
@@ -34,43 +35,184 @@ const [featured, ...rest] = t.testimonials.items;
       </p>
     </div>
 
-    <div class="mt-14 grid gap-x-14 gap-y-12 lg:grid-cols-12">
-      {/* Featured quote */}
-      <figure class="reveal lg:col-span-7">
-        <span class="font-display block text-6xl leading-none text-clay-300" aria-hidden="true">&ldquo;</span>
-        <blockquote class="-mt-4 font-display text-[clamp(1.6rem,3vw,2.4rem)] font-medium leading-tight tracking-tight text-ink">
-          {featured?.quote}
-        </blockquote>
-        <figcaption class="mt-7 flex items-center gap-4">
-          <span class="font-display flex h-14 w-14 flex-none items-center justify-center rounded-full bg-clay-600 text-base text-paper" aria-hidden="true">
-            {initials(featured?.author ?? '')}
-          </span>
-          <span>
-            <span class="block text-lg font-semibold text-ink">{featured?.author}</span>
-            <span class="block text-sm text-ink-faint">{featured?.role}</span>
-          </span>
-        </figcaption>
-      </figure>
-
-      {/* Secondary quotes */}
-      <div class="flex flex-col divide-y divide-ink/12 lg:col-span-5">
+    {/* Featured testimonial (auto-advances; thumbnails below select it) */}
+    <div id="testimonials-slider" class="reveal mt-12">
+      <div class="grid">
         {
-          rest.map((item, i) => (
-            <figure class="reveal py-6 first:pt-0 last:pb-0" style={`--reveal-delay:${(i + 1) * 90}ms`}>
-              <blockquote class="text-lg leading-relaxed text-ink">{item.quote}</blockquote>
-              <figcaption class="mt-4 flex items-center gap-3">
-                <span class="font-display flex h-10 w-10 flex-none items-center justify-center rounded-full bg-clay-100 text-sm text-clay-700" aria-hidden="true">
-                  {initials(item.author)}
-                </span>
-                <span>
-                  <span class="block font-semibold text-ink">{item.author}</span>
-                  <span class="block text-sm text-ink-faint">{item.role}</span>
-                </span>
-              </figcaption>
+          items.map((it, i) => (
+            <figure
+              class:list={['tm-feature col-start-1 row-start-1', { 'is-active': i === 0 }]}
+              data-feature={i}
+            >
+              <div class="rounded-3xl border border-ink/10 bg-paper p-7 shadow-[var(--shadow-lift)] sm:p-10 lg:p-12">
+                <div class="flex gap-1 text-clay-500" aria-hidden="true">
+                  {[0, 1, 2, 3, 4].map(() => (
+                    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor">
+                      <path d="M12 2.5l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.8 6.2 20.9l1.1-6.5L2.6 9.8l6.5-.9z" />
+                    </svg>
+                  ))}
+                </div>
+                <blockquote class="font-display mt-6 text-[clamp(1.4rem,3vw,2.2rem)] font-medium leading-snug tracking-tight text-ink">
+                  &ldquo;{it.quote}&rdquo;
+                </blockquote>
+                <figcaption class="mt-8 flex items-center gap-4">
+                  <span
+                    class:list={[
+                      'font-display flex h-14 w-14 flex-none items-center justify-center rounded-full text-lg text-paper',
+                      avatarBg[i % avatarBg.length],
+                    ]}
+                    aria-hidden="true"
+                  >
+                    {initials(it.author)}
+                  </span>
+                  <span>
+                    <span class="block text-lg font-semibold text-ink">{it.author}</span>
+                    <span class="block text-sm text-ink-faint">{it.role}</span>
+                  </span>
+                </figcaption>
+              </div>
             </figure>
           ))
         }
       </div>
+
+      {/* Thumbnails */}
+      <ul role="tablist" aria-label={t.testimonials.eyebrow} class="mt-6 flex gap-3 overflow-x-auto pb-2 sm:gap-4">
+        {
+          items.map((it, i) => (
+            <li class="flex-none">
+              <button
+                type="button"
+                role="tab"
+                aria-selected={i === 0 ? 'true' : 'false'}
+                class:list={['tm-thumb', { 'is-active': i === 0 }]}
+                data-thumb={i}
+                aria-label={`${it.author} — ${it.role}`}
+              >
+                <span
+                  class:list={[
+                    'font-display flex h-10 w-10 flex-none items-center justify-center rounded-full text-sm text-paper',
+                    avatarBg[i % avatarBg.length],
+                  ]}
+                  aria-hidden="true"
+                >
+                  {initials(it.author)}
+                </span>
+                <span class="min-w-0 text-left">
+                  <span class="block truncate text-sm font-semibold text-ink">{it.author}</span>
+                  <span class="block truncate text-xs text-ink-faint">{it.role}</span>
+                </span>
+              </button>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </div>
 </section>
+
+<style>
+  .tm-feature {
+    opacity: 0;
+    transform: translateY(12px);
+    pointer-events: none;
+    transition:
+      opacity 500ms var(--ease-out-quart, ease),
+      transform 500ms var(--ease-out-quart, ease);
+  }
+  .tm-feature.is-active {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  .tm-thumb {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 14rem;
+    border-radius: 1rem;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 10%, transparent);
+    background: var(--color-paper);
+    padding: 0.7rem 0.9rem;
+    transition:
+      border-color 200ms ease,
+      box-shadow 200ms ease,
+      transform 200ms ease;
+  }
+  .tm-thumb:hover {
+    border-color: var(--color-clay-200);
+    transform: translateY(-2px);
+  }
+  .tm-thumb.is-active {
+    border-color: var(--color-clay-500);
+    box-shadow:
+      var(--shadow-soft),
+      inset 0 0 0 1px var(--color-clay-500);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tm-feature {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // Testimonials: one featured quote that auto-advances through the set; the
+  // thumbnails select it. Pauses on hover / when the tab is hidden. Re-bound on
+  // every Astro page load.
+  function initTestimonials() {
+    const root = document.getElementById('testimonials-slider');
+    if (!root || root.dataset.bound === '1') return;
+    root.dataset.bound = '1';
+
+    const features = Array.from(root.querySelectorAll<HTMLElement>('.tm-feature'));
+    const thumbs = Array.from(root.querySelectorAll<HTMLButtonElement>('.tm-thumb'));
+    if (features.length < 2) return;
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let index = 0;
+    let timer: number | undefined;
+
+    const go = (i: number) => {
+      index = (i + features.length) % features.length;
+      features.forEach((f, fi) => f.classList.toggle('is-active', fi === index));
+      thumbs.forEach((thumb, ti) => {
+        const on = ti === index;
+        thumb.classList.toggle('is-active', on);
+        thumb.setAttribute('aria-selected', on ? 'true' : 'false');
+        if (on) thumb.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+      });
+    };
+
+    const stop = () => {
+      if (timer) window.clearInterval(timer);
+      timer = undefined;
+    };
+    const start = () => {
+      if (reduce) return;
+      stop();
+      timer = window.setInterval(() => go(index + 1), 5500);
+    };
+
+    thumbs.forEach((thumb, i) =>
+      thumb.addEventListener('click', () => {
+        go(i);
+        start();
+      }),
+    );
+
+    root.addEventListener('pointerenter', stop);
+    root.addEventListener('pointerleave', start);
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) stop();
+      else start();
+    });
+
+    go(0);
+    start();
+  }
+
+  document.addEventListener('astro:page-load', initTestimonials);
+</script>

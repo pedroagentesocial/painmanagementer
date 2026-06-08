@@ -334,6 +334,24 @@ export const en: typeof es = {
         author: 'Lucía M.',
         role: 'Chronic migraine',
       },
+      {
+        quote:
+          'The team listened when no one else did. I regained trust in my treatment.',
+        author: 'Ana P.',
+        role: 'Neck pain',
+      },
+      {
+        quote:
+          'Radiofrequency took away the sciatica I had carried for years. I sleep well again.',
+        author: 'Jorge L.',
+        role: 'Sciatica',
+      },
+      {
+        quote:
+          'I walk without discomfort again after rehab. Caring and very professional.',
+        author: 'Elena V.',
+        role: 'Post-surgical pain',
+      },
     ],
   },
   lead: {

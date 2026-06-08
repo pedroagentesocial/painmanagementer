@@ -89,15 +89,37 @@ const localize = useTranslatedPath(lang);
     border-radius: 1rem;
   }
 
-  /* Flip triggers: hover/keyboard focus on pointer devices, tap on touch. */
+  /* Flip triggers: hover/keyboard focus on pointer devices, tap on touch.
+     Pointer-events are gated to the visible face so the back link is clickable
+     (a hidden front face must not swallow the click). */
+  .flip-rest {
+    pointer-events: auto;
+  }
+  .flip-info {
+    pointer-events: none;
+  }
   @media (hover: hover) {
     .flip-card:hover .flip-card-inner,
     .flip-card:focus-within .flip-card-inner {
       transform: rotateY(180deg);
     }
+    .flip-card:hover .flip-info,
+    .flip-card:focus-within .flip-info {
+      pointer-events: auto;
+    }
+    .flip-card:hover .flip-rest,
+    .flip-card:focus-within .flip-rest {
+      pointer-events: none;
+    }
   }
   .flip-card.is-flipped .flip-card-inner {
     transform: rotateY(180deg);
+  }
+  .flip-card.is-flipped .flip-info {
+    pointer-events: auto;
+  }
+  .flip-card.is-flipped .flip-rest {
+    pointer-events: none;
   }
 
   .flip-rest,

@@ -2,7 +2,7 @@
 import Icon from './visual/Icon.astro';
 
 interface Props {
-  service: { idx: number; icon: string; visual: string; title: string; short: string };
+  service: { idx: number; icon: string; visual: string; image?: string; title: string; short: string };
   num: number;
   detailsCta: string;
 }
@@ -13,31 +13,36 @@ const { service, num, detailsCta } = Astro.props;
   class="reveal group relative flex flex-col overflow-hidden rounded-3xl border border-ink/10 bg-paper shadow-[var(--shadow-soft)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1.5 hover:shadow-[var(--shadow-lift)]"
   style={`--reveal-delay:${((num - 1) % 3) * 80}ms`}
 >
-  {/* Branded visual header */}
+  {/* Photo header (brand gradient as fallback behind it) */}
   <div class="relative aspect-[16/10] overflow-hidden" style={`background-image:${service.visual}`}>
-    <svg
-      class="pointer-events-none absolute -right-10 -top-10 h-48 w-48 text-white/15 transition-transform duration-500 group-hover:scale-110"
-      viewBox="0 0 200 200"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
+    {
+      service.image && (
+        <img
+          src={service.image}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+      )
+    }
+    {/* Brand scrim: depth + keeps the badges readable on any photo */}
+    <div
+      class="absolute inset-0"
+      style="background: linear-gradient(to top, rgba(16,42,71,0.6), rgba(16,42,71,0.08) 55%, rgba(16,42,71,0.12));"
       aria-hidden="true"
     >
-      <circle cx="150" cy="50" r="34"></circle>
-      <circle cx="150" cy="50" r="62" stroke-opacity="0.7"></circle>
-      <circle cx="150" cy="50" r="92" stroke-opacity="0.45"></circle>
-    </svg>
+    </div>
+
     <span
       class="absolute left-4 top-4 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-paper ring-1 ring-white/25 backdrop-blur-sm"
       aria-hidden="true"
     >
       {String(num).padStart(2, '0')}
     </span>
-    <div class="absolute inset-0 flex items-center justify-center">
-      <span class="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/15 text-paper ring-1 ring-white/25 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
-        <Icon paths={service.icon} class="h-8 w-8" />
-      </span>
-    </div>
+    <span class="absolute bottom-4 left-4 flex h-11 w-11 items-center justify-center rounded-xl bg-white/15 text-paper ring-1 ring-white/25 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
+      <Icon paths={service.icon} class="h-6 w-6" />
+    </span>
   </div>
 
   {/* Body */}
