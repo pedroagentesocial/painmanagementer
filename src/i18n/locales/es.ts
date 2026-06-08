@@ -9,7 +9,7 @@
  */
 export const es = {
   site: {
-    name: 'PainManagementer',
+    name: 'PainManagement ER',
     tagline: 'Recupera tu vida, libre de dolor',
   },
   nav: {
@@ -30,15 +30,39 @@ export const es = {
     required: '(obligatorio)',
   },
   hero: {
-    eyebrow: 'Clínica del manejo del dolor',
-    titleA: 'Recupera tu vida,',
-    titleB: 'sin que el dolor decida',
-    subtitle:
-      'Tratamientos personalizados y mínimamente invasivos para el dolor crónico de espalda, articulaciones y nervios. Un equipo que escucha, diagnostica y te acompaña hasta que vuelves a moverte.',
+    slides: [
+      {
+        eyebrow: 'Clínica del manejo del dolor',
+        titleA: 'Recupera tu vida,',
+        titleB: 'sin que el dolor decida',
+        subtitle:
+          'Tratamientos personalizados y mínimamente invasivos para el dolor crónico de espalda, articulaciones y nervios. Un equipo que escucha, diagnostica y te acompaña.',
+      },
+      {
+        eyebrow: 'Tratamientos avanzados',
+        titleA: 'Menos dolor,',
+        titleB: 'más movimiento',
+        subtitle:
+          'Procedimientos mínimamente invasivos y de recuperación rápida, diseñados a partir de tu diagnóstico exacto — sin cirugías innecesarias.',
+      },
+      {
+        eyebrow: 'Un equipo que te escucha',
+        titleA: 'No estás solo',
+        titleB: 'en este camino',
+        subtitle:
+          'Un equipo médico colegiado que identifica el origen real de tu dolor y te acompaña, paso a paso, hasta que vuelves a moverte.',
+      },
+    ],
     ctaPrimary: 'Agendar valoración',
     ctaSecondary: 'Ver cómo tratamos el dolor',
     trust: 'Equipo médico colegiado · Primera valoración sin compromiso',
     imageAlt: 'Una persona camina hacia la luz dorada del atardecer, de nuevo en movimiento.',
+    slider: {
+      region: 'Videos de fondo del hero',
+      prev: 'Video anterior',
+      next: 'Video siguiente',
+      goTo: 'Ir al video',
+    },
   },
   conditions: {
     eyebrow: 'Tu dolor',

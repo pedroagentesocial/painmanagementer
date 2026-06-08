@@ -1,64 +1,72 @@
 @import "tailwindcss";
 
 /*
-  PainManagementer — warm + credible.
-  Color strategy: Committed. A warm clay carries the identity over warm "oat"
-  paper and warm near-black ink. No clinical cyan, no spa sage. All OKLCH,
-  chroma eased toward the lightness extremes.
+  PainManagement ER — clinical + reassuring (brand identity system).
+  Color strategy: the brand palette drives everything.
+    Azul profundo #163A5F  → ink / deep "drench" bands  (the dark anchor)
+    Teal clínico  #2FA7A0  → primary accent + CTAs       (the `clay-*` ramp)
+    Azul suave    #7FB7D9  → secondary accent / gradients (the `ochre-*` ramp)
+    Gris claro    #E9EEF3  → light surfaces
+    Blanco        #FFFFFF  → base paper
+  Token NAMES are kept (clay/ochre/espresso) so components stay untouched while
+  every value is remapped to the brand. Interactive teals are darkened to clear
+  WCAG AA (4.5:1) with white text; the pure brand teal stays the decorative 500.
 */
 @theme {
-  /* Warm paper grounds (tinted toward the clay hue, never #fff) */
-  --color-paper: oklch(0.972 0.012 73);
-  --color-paper-2: oklch(0.945 0.018 71);
-  --color-paper-3: oklch(0.915 0.022 70);
+  /* Base grounds — clean clinical white → light gray (Blanco / Gris claro) */
+  --color-paper: #ffffff;
+  --color-paper-2: #f4f7fa;
+  --color-paper-3: #e9eef3;
 
-  /* Warm ink (never #000) */
-  --color-ink: oklch(0.245 0.024 58);
-  --color-ink-soft: oklch(0.46 0.022 56);
-  /* Darkened from 0.6 to clear WCAG AA (4.5:1) on both paper and paper-2 */
-  --color-ink-faint: oklch(0.5 0.02 56);
+  /* Ink — deep clinical blue (Azul profundo) and accessible blue-grays */
+  --color-ink: #163a5f;
+  --color-ink-soft: #3f5b78;
+  /* Tuned to clear WCAG AA (4.5:1) on white for small text */
+  --color-ink-faint: #4f6a86;
 
-  /* Semantic danger (warm-tinted, not a stock cool red) for form errors */
-  --color-danger: oklch(0.515 0.17 28);
-  --color-danger-bg: oklch(0.955 0.03 32);
-  --color-danger-border: oklch(0.83 0.08 30);
+  /* Semantic danger — a clean clinical red for form errors */
+  --color-danger: #c0392b;
+  --color-danger-bg: #fdecea;
+  --color-danger-border: #f1b0a9;
 
-  /* Espresso: warm roasted near-black for the drenched bands */
-  --color-espresso: oklch(0.255 0.038 46);
-  --color-espresso-2: oklch(0.305 0.04 46);
+  /* Espresso → deep brand blue for the drenched bands (Azul profundo + darker) */
+  --color-espresso: #102a47;
+  --color-espresso-2: #163a5f;
 
-  /* Brand: clay / burnt sienna (intensified — the single strong accent) */
-  --color-clay-50: oklch(0.955 0.024 48);
-  --color-clay-100: oklch(0.91 0.05 47);
-  --color-clay-200: oklch(0.85 0.085 46);
-  --color-clay-300: oklch(0.78 0.115 47);
-  --color-clay-400: oklch(0.7 0.15 47);
-  --color-clay-500: oklch(0.63 0.17 46);
-  --color-clay-600: oklch(0.565 0.168 44);
-  --color-clay-700: oklch(0.48 0.142 42);
-  --color-clay-900: oklch(0.33 0.088 44);
+  /* Brand accent: Teal clínico ramp (the single strong accent + CTAs).
+     500 = exact brand teal (decorative). 600/700 darkened for AA button text. */
+  --color-clay-50: #e7f5f4;
+  --color-clay-100: #c6e9e7;
+  --color-clay-200: #98d7d3;
+  --color-clay-300: #66c4be;
+  --color-clay-400: #3fb1aa;
+  --color-clay-500: #2fa7a0; /* Teal clínico — brand exact */
+  --color-clay-600: #1c7d76; /* interactive: AA with white text */
+  --color-clay-700: #15625c; /* hover / accent text */
+  --color-clay-900: #0e3f3b;
 
-  /* Ochre / amber — secondary warm accent (gradients, graphics, warning state).
-     Sits ~35° from clay so the two harmonize instead of clashing. */
-  --color-ochre-100: oklch(0.93 0.052 84);
-  --color-ochre-200: oklch(0.87 0.085 83);
-  --color-ochre-300: oklch(0.8 0.115 82);
-  --color-ochre-400: oklch(0.73 0.13 80);
-  --color-ochre-500: oklch(0.66 0.135 78);
-  --color-ochre-700: oklch(0.5 0.1 76);
+  /* Secondary accent: Azul suave ramp (gradients, graphics, soft fills).
+     400 = exact brand soft blue. Harmonizes with the teal a step over. */
+  --color-ochre-100: #e8f2f9;
+  --color-ochre-200: #cfe5f1;
+  --color-ochre-300: #aed3e8;
+  --color-ochre-400: #7fb7d9; /* Azul suave — brand exact */
+  --color-ochre-500: #5b9fc9;
+  --color-ochre-700: #3a6f97;
 
-  /* Success — muted warm leaf green, a genuine "go" state for the form. */
-  --color-success: oklch(0.5 0.095 138);
-  --color-success-bg: oklch(0.95 0.03 140);
-  --color-success-border: oklch(0.82 0.07 140);
+  /* Success — clinical green, kept distinct from the brand teal. */
+  --color-success: #1f7a4d;
+  --color-success-bg: #e7f5ee;
+  --color-success-border: #b3dcc6;
 
-  /* Warm-tinted soft shadows (depth that reads as light, not boxes) */
-  --shadow-soft: 0 6px 28px -10px oklch(0.33 0.088 44 / 0.2);
-  --shadow-lift: 0 18px 48px -16px oklch(0.33 0.088 44 / 0.26);
+  /* Deep-blue tinted soft shadows (depth that reads as light, not boxes) */
+  --shadow-soft: 0 6px 28px -10px rgba(22, 58, 95, 0.18);
+  --shadow-lift: 0 18px 48px -16px rgba(22, 58, 95, 0.24);
 
-  /* Fonts (loaded via @fontsource in the Layout) */
-  --font-display: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Hanken Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
+  /* Brand fonts (loaded via @fontsource in the Layout):
+     Sora SemiBold → display/headings · Inter Regular → body/UI */
+  --font-display: "Sora Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
 
   /* Motion — custom easing + a small token set, all durations <300ms */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -150,7 +158,7 @@
     transform: scaleX(1);
   }
 
-  /* Warm gradient surfaces for graphic panels (clay <-> ochre). */
+  /* Soft brand gradient surfaces for graphic panels (soft-blue → teal tints). */
   .surface-warm {
     background-image: linear-gradient(150deg, var(--color-ochre-100), var(--color-clay-100) 78%);
   }

@@ -14,22 +14,37 @@ const navItems = [
 ];
 ---
 
-<header class="sticky top-0 z-50 border-b border-ink/8 bg-paper/85 backdrop-blur-md">
-  <div class="mx-auto flex max-w-6xl items-center justify-between gap-6 px-5 py-3.5 sm:px-8">
-    <a
-      href={localize()}
-      class="font-display shrink-0 text-lg text-ink sm:text-xl"
-      style="letter-spacing:-0.03em"
-    >
-      pain<span class="text-clay-600">managementer</span>
+<header
+  id="site-header"
+  class="site-header fixed inset-x-0 top-0 z-50 transition-colors duration-300"
+  data-state="transparent"
+>
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-5 py-3.5 sm:gap-6 sm:px-8">
+    <a href={localize()} class="logo shrink-0" aria-label={t.site.name}>
+      {/* Colour lockup for the solid header, white lockup for over the video. */}
+      <img
+        src="/logo-mark.png"
+        alt={t.site.name}
+        width="887"
+        height="227"
+        class="logo-color h-7 w-auto sm:h-9"
+      />
+      <img
+        src="/logo-white.png"
+        alt=""
+        aria-hidden="true"
+        width="887"
+        height="227"
+        class="logo-white h-7 w-auto sm:h-9"
+      />
     </a>
 
     <nav aria-label="Primary" class="hidden lg:block">
-      <ul role="list" class="flex items-center gap-7 text-sm font-medium text-ink-soft">
+      <ul role="list" class="nav-links flex items-center gap-7 text-sm font-medium">
         {
           navItems.map((item) => (
             <li>
-              <a href={item.href} class="link-underline transition-colors hover:text-clay-700">
+              <a href={item.href} class="nav-link link-underline transition-colors">
                 {item.label}
               </a>
             </li>
@@ -42,7 +57,7 @@ const navItems = [
       <LanguageSelector />
       <a
         href={`${localize()}#contact`}
-        class="inline-flex min-h-11 items-center rounded-full bg-clay-600 px-4 text-sm font-semibold text-paper shadow-sm transition-[background-color,transform] duration-200 ease-[cubic-bezier(0.25,1,0.5,1)] hover:bg-clay-700 active:scale-[0.98]"
+        class="inline-flex min-h-11 items-center whitespace-nowrap rounded-full bg-clay-600 px-3.5 text-sm font-semibold text-paper shadow-sm transition-[background-color,transform] duration-200 ease-[cubic-bezier(0.25,1,0.5,1)] hover:bg-clay-700 active:scale-[0.98] sm:px-4"
       >
         <span class="sm:hidden">{t.nav.bookShort}</span>
         <span class="hidden sm:inline">{t.nav.book}</span>
@@ -50,3 +65,68 @@ const navItems = [
     </div>
   </div>
 </header>
+
+<style>
+  /* --- Transparent state (default, over the hero video) --- */
+  .site-header {
+    background-color: transparent;
+    border-bottom: 1px solid transparent;
+  }
+  .site-header .logo-color {
+    display: none;
+  }
+  .site-header .nav-link {
+    color: var(--color-paper);
+  }
+  .site-header .nav-link:hover {
+    color: var(--color-clay-300);
+  }
+
+  /* --- Solid state (after the hero scrolls past) --- */
+  .site-header.is-solid {
+    background-color: color-mix(in srgb, var(--color-paper) 85%, transparent);
+    border-bottom-color: color-mix(in srgb, var(--color-ink) 8%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .site-header.is-solid .logo-color {
+    display: block;
+  }
+  .site-header.is-solid .logo-white {
+    display: none;
+  }
+  .site-header.is-solid .nav-link {
+    color: var(--color-ink-soft);
+  }
+  .site-header.is-solid .nav-link:hover {
+    color: var(--color-clay-700);
+  }
+</style>
+
+<script>
+  // Header flips from transparent (over the hero video) to a solid, blurred bar
+  // once the hero scrolls past. Driven by an IntersectionObserver on the hero's
+  // bottom sentinel. Pages without a hero render the solid header immediately.
+  // Re-initialised on every Astro View Transition via astro:page-load.
+  function initHeader() {
+    const header = document.getElementById('site-header');
+    if (!header) return;
+
+    // No hero on this page → solid straight away so it never blends into white.
+    const hero = document.getElementById('hero');
+    if (!hero) {
+      header.classList.add('is-solid');
+      return;
+    }
+
+    // Transparent while any part of the hero is on screen (inset by the header
+    // height); solid the moment the hero has fully scrolled past the bar.
+    const io = new IntersectionObserver(
+      ([entry]) => header.classList.toggle('is-solid', !entry.isIntersecting),
+      { rootMargin: '-72px 0px 0px 0px', threshold: 0 },
+    );
+    io.observe(hero);
+  }
+
+  document.addEventListener('astro:page-load', initHeader);
+</script>

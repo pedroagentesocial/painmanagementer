@@ -6,7 +6,7 @@ import type { es } from './es';
  */
 export const en: typeof es = {
   site: {
-    name: 'PainManagementer',
+    name: 'PainManagement ER',
     tagline: 'Reclaim your life, pain-free',
   },
   nav: {
@@ -27,15 +27,39 @@ export const en: typeof es = {
     required: '(required)',
   },
   hero: {
-    eyebrow: 'Pain management clinic',
-    titleA: 'Take your life back,',
-    titleB: 'not pain’s',
-    subtitle:
-      'Personalized, minimally invasive treatments for chronic back, joint and nerve pain. A team that listens, diagnoses and stays with you until you move freely again.',
+    slides: [
+      {
+        eyebrow: 'Pain management clinic',
+        titleA: 'Take your life back,',
+        titleB: 'not pain’s',
+        subtitle:
+          'Personalized, minimally invasive treatments for chronic back, joint and nerve pain. A team that listens, diagnoses and stays with you.',
+      },
+      {
+        eyebrow: 'Advanced treatments',
+        titleA: 'Less pain,',
+        titleB: 'more movement',
+        subtitle:
+          'Minimally invasive, fast-recovery procedures designed around your exact diagnosis — no unnecessary surgery.',
+      },
+      {
+        eyebrow: 'A team that listens',
+        titleA: 'You’re not alone',
+        titleB: 'on this path',
+        subtitle:
+          'A board-certified team that pinpoints the real source of your pain and stays with you, step by step, until you move freely again.',
+      },
+    ],
     ctaPrimary: 'Book an assessment',
     ctaSecondary: 'See how we treat pain',
     trust: 'Board-certified medical team · First assessment with no commitment',
     imageAlt: 'A person walks toward the golden evening light, moving freely again.',
+    slider: {
+      region: 'Hero background videos',
+      prev: 'Previous video',
+      next: 'Next video',
+      goTo: 'Go to video',
+    },
   },
   conditions: {
     eyebrow: 'Your pain',

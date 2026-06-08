@@ -1,87 +1,350 @@
 ---
 import { getLangFromUrl, useTranslations, useTranslatedPath } from '../../i18n/utils';
-import HeroGraphic from '../visual/HeroGraphic.astro';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const localize = useTranslatedPath(lang);
+
+// Each slide pairs a background video with its own copy. Drop the videos into
+// public/videos/ with these exact names and the slider works instantly.
+const videos = ['/videos/hero1.mp4', '/videos/hero2.mp4', '/videos/hero3.mp4'];
+const slides = t.hero.slides.map((copy, i) => ({ ...copy, src: videos[i] ?? videos[0] }));
 ---
 
-<section class="relative overflow-hidden">
-  {/* Warm glow anchored behind the type */}
+<section
+  id="hero"
+  class="relative isolate min-h-svh w-full overflow-hidden text-paper"
+>
+  {/* ---- Background video slider ---- */}
+  <div class="hero-slides absolute inset-0 -z-20" aria-label={t.hero.slider.region} role="group">
+    {
+      slides.map((slide, i) => (
+        <div class:list={['hero-slide absolute inset-0', { 'is-active': i === 0 }]} data-slide={i}>
+          <video
+            class="h-full w-full object-cover"
+            muted
+            loop
+            playsinline
+            autoplay
+            preload={i === 0 ? 'auto' : 'metadata'}
+          >
+            <source src={slide.src} type="video/mp4" />
+          </video>
+        </div>
+      ))
+    }
+  </div>
+
+  {/* ---- Legibility scrim (brand deep-blue, heavier where type + controls sit) ---- */}
   <div
-    class="pointer-events-none absolute -left-48 -top-48 h-[40rem] w-[40rem] rounded-full opacity-70 blur-3xl"
-    style="background: radial-gradient(circle, var(--color-clay-100), transparent 70%)"
+    class="pointer-events-none absolute inset-0 -z-10"
+    style="background:
+      linear-gradient(90deg, rgba(16,42,71,0.78) 0%, rgba(16,42,71,0.34) 52%, rgba(16,42,71,0.12) 100%),
+      linear-gradient(180deg, rgba(16,42,71,0.55) 0%, rgba(16,42,71,0.15) 32%, rgba(16,42,71,0.62) 100%);"
     aria-hidden="true"
   >
   </div>
 
-  <div
-    class="relative mx-auto grid max-w-6xl items-center gap-12 px-5 pb-16 pt-12 sm:px-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16 lg:pb-28 lg:pt-20"
+  {/* ---- Per-slide content (animated crossfade) ----
+       Slides are stacked in a single grid cell (not absolutely positioned), so
+       the hero grows to fit the tallest copy on small screens instead of
+       clipping it. min-h-svh keeps it full-height when the copy is shorter. */}
+  <div class="relative grid min-h-svh content-center">
+    {
+      slides.map((slide, i) => (
+        <div
+          class:list={['hero-copy col-start-1 row-start-1 w-full', { 'is-active': i === 0 }]}
+          data-copy={i}
+          inert={i !== 0}
+        >
+          <div class="mx-auto w-full max-w-6xl px-5 pb-24 pt-24 sm:px-8 sm:pb-28 sm:pt-28">
+            <div
+              class="hero-veil max-w-2xl rounded-3xl p-5 ring-1 ring-white/5 sm:p-8"
+              style="background: linear-gradient(135deg, rgba(16,42,71,0.22) 0%, rgba(16,42,71,0.06) 60%, rgba(16,42,71,0) 100%); backdrop-filter: blur(1.5px); -webkit-backdrop-filter: blur(1.5px);"
+            >
+              <p class="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.16em] text-paper/90">
+                <span class="h-px w-8 bg-clay-400" aria-hidden="true" />
+                {slide.eyebrow}
+              </p>
+
+              <h1
+                class="font-display mt-5 text-[clamp(2.25rem,7vw,5.5rem)] font-extrabold text-paper sm:mt-6"
+                style="line-height:0.95; text-shadow:0 2px 24px rgba(16,42,71,0.35)"
+              >
+                {slide.titleA}
+                <span class="relative mt-1 inline-block pb-3 text-clay-300">
+                  {slide.titleB}
+                  <svg
+                    class="absolute bottom-1 left-0 w-full"
+                    viewBox="0 0 300 12"
+                    preserveAspectRatio="none"
+                    fill="none"
+                    aria-hidden="true"
+                    style="height:0.2em"
+                  >
+                    <path
+                      d="M3 8c60-6 130-7 210-4 30 1 58 3 84 5"
+                      stroke="var(--color-clay-400)"
+                      stroke-width="5"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </span>
+              </h1>
+
+              <p class="mt-5 max-w-xl text-base leading-relaxed text-paper/85 sm:mt-7 sm:text-xl">
+                {slide.subtitle}
+              </p>
+
+              <div class="mt-7 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:items-center">
+                <a
+                  href={`${localize()}#contact`}
+                  class="rounded-full bg-clay-600 px-8 py-4 text-center text-base font-semibold text-paper shadow-lg shadow-clay-900/25 transition-[background-color,transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:bg-clay-700 hover:shadow-xl active:translate-y-0"
+                >
+                  {t.hero.ctaPrimary}
+                </a>
+                <a
+                  href={`${localize()}#treatments`}
+                  class="group inline-flex items-center justify-center gap-2 px-3 py-4 text-base font-semibold text-paper underline-offset-4 transition-colors hover:text-clay-300 hover:underline"
+                >
+                  {t.hero.ctaSecondary}
+                  <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">
+                    →
+                  </span>
+                </a>
+              </div>
+
+              <p class="mt-7 text-sm font-medium text-paper/70 sm:mt-9">{t.hero.trust}</p>
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  {/* ---- Arrows ---- */}
+  <button
+    type="button"
+    class="hero-arrow hero-prev absolute left-3 top-1/2 z-10 hidden -translate-y-1/2 sm:flex"
+    aria-label={t.hero.slider.prev}
   >
-    <div>
-      <p class="reveal flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.16em] text-clay-700">
-        <span class="h-px w-8 bg-clay-500" aria-hidden="true"></span>
-        {t.hero.eyebrow}
-      </p>
+    <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" aria-hidden="true">
+      <path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  </button>
+  <button
+    type="button"
+    class="hero-arrow hero-next absolute right-3 top-1/2 z-10 hidden -translate-y-1/2 sm:flex"
+    aria-label={t.hero.slider.next}
+  >
+    <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" aria-hidden="true">
+      <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  </button>
 
-      <h1
-        class="reveal font-display mt-6 text-[clamp(2.9rem,8.5vw,6.5rem)] font-extrabold text-ink"
-        style="--reveal-delay:60ms; line-height:0.92"
-      >
-        {t.hero.titleA}
-        <span class="relative mt-1 inline-block pb-3 text-clay-600">
-          {t.hero.titleB}
-          {/* Hand-drawn-style underline: type treated as graphic */}
-          <svg
-            class="absolute bottom-1 left-0 w-full"
-            viewBox="0 0 300 12"
-            preserveAspectRatio="none"
-            fill="none"
-            aria-hidden="true"
-            style="height:0.2em"
-          >
-            <path
-              d="M3 8c60-6 130-7 210-4 30 1 58 3 84 5"
-              stroke="var(--color-ochre-400)"
-              stroke-width="5"
-              stroke-linecap="round"
-            ></path>
-          </svg>
-        </span>
-      </h1>
-
-      <p
-        class="reveal mt-7 max-w-xl text-lg leading-relaxed text-ink-soft sm:text-xl"
-        style="--reveal-delay:120ms"
-      >
-        {t.hero.subtitle}
-      </p>
-
-      <div
-        class="reveal mt-9 flex flex-col gap-3 sm:flex-row sm:items-center"
-        style="--reveal-delay:180ms"
-      >
-        <a
-          href={`${localize()}#contact`}
-          class="rounded-full bg-clay-600 px-8 py-4 text-center text-base font-semibold text-paper shadow-lg shadow-clay-900/15 transition-[background-color,transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:bg-clay-700 hover:shadow-xl hover:shadow-clay-900/20 active:translate-y-0"
-        >
-          {t.hero.ctaPrimary}
-        </a>
-        <a
-          href={`${localize()}#treatments`}
-          class="group inline-flex items-center justify-center gap-2 px-3 py-4 text-base font-semibold text-ink underline-offset-4 transition-colors hover:text-clay-700 hover:underline"
-        >
-          {t.hero.ctaSecondary}
-          <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
-        </a>
-      </div>
-
-      <p class="reveal mt-9 text-sm font-medium text-ink-faint" style="--reveal-delay:240ms">
-        {t.hero.trust}
-      </p>
-    </div>
-
-    <HeroGraphic />
+  {/* ---- Dots ---- */}
+  <div class="hero-dots absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 items-center gap-3">
+    {
+      slides.map((_, i) => (
+        <button
+          type="button"
+          class:list={['hero-dot', { 'is-active': i === 0 }]}
+          data-dot={i}
+          aria-label={`${t.hero.slider.goTo} ${i + 1}`}
+          aria-current={i === 0 ? 'true' : 'false'}
+        />
+      ))
+    }
   </div>
 </section>
+
+<style>
+  .hero-slide {
+    opacity: 0;
+    transition: opacity 900ms var(--ease-out-quart, ease);
+    /* Brand-blue fallback fill until the video paints (no poster needed). */
+    background: linear-gradient(160deg, var(--color-espresso-2), var(--color-espresso));
+  }
+  .hero-slide.is-active {
+    opacity: 1;
+  }
+
+  /* --- Animated content crossfade: each slide's veil + copy fades, copy rises staggered --- */
+  .hero-copy {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 500ms var(--ease-out-quart, ease);
+  }
+  .hero-copy.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .hero-copy > div > div > * {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 560ms var(--ease-out-expo, ease),
+      transform 560ms var(--ease-out-expo, ease);
+  }
+  .hero-copy.is-active > div > div > * {
+    opacity: 1;
+    transform: none;
+  }
+  .hero-copy.is-active > div > div > *:nth-child(1) {
+    transition-delay: 60ms;
+  }
+  .hero-copy.is-active > div > div > *:nth-child(2) {
+    transition-delay: 130ms;
+  }
+  .hero-copy.is-active > div > div > *:nth-child(3) {
+    transition-delay: 200ms;
+  }
+  .hero-copy.is-active > div > div > *:nth-child(4) {
+    transition-delay: 270ms;
+  }
+  .hero-copy.is-active > div > div > *:nth-child(5) {
+    transition-delay: 340ms;
+  }
+
+  .hero-arrow {
+    align-items: center;
+    justify-content: center;
+    height: 2.75rem;
+    width: 2.75rem;
+    border-radius: 9999px;
+    color: var(--color-paper);
+    background: rgba(16, 42, 71, 0.35);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    transition:
+      background-color var(--dur, 200ms) ease,
+      transform var(--dur, 200ms) ease;
+  }
+  .hero-arrow:hover {
+    background: var(--color-clay-600);
+    border-color: transparent;
+  }
+  .hero-arrow:active {
+    transform: translateY(-50%) scale(0.94);
+  }
+
+  .hero-dot {
+    height: 0.5rem;
+    width: 0.5rem;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    transition:
+      width var(--dur, 200ms) ease,
+      background-color var(--dur, 200ms) ease;
+  }
+  .hero-dot:hover {
+    background: rgba(255, 255, 255, 0.8);
+  }
+  .hero-dot.is-active {
+    width: 1.6rem;
+    background: var(--color-clay-400);
+    border-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-slide,
+    .hero-copy,
+    .hero-copy > div > div > * {
+      transition: none;
+    }
+    .hero-copy.is-active {
+      opacity: 1;
+    }
+    .hero-copy > div > div > * {
+      opacity: 1;
+      transform: none;
+    }
+    .hero-copy:not(.is-active) {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Hero video slider: crossfade between 3 background videos AND their copy,
+  // dots + arrows, auto-advance (paused on hover / when the tab is hidden /
+  // reduced-motion). Re-initialised on every Astro View Transition.
+  function initHeroSlider() {
+    const hero = document.getElementById('hero');
+    if (!hero) return;
+
+    const slides = Array.from(hero.querySelectorAll<HTMLElement>('.hero-slide'));
+    const copies = Array.from(hero.querySelectorAll<HTMLElement>('.hero-copy'));
+    const dots = Array.from(hero.querySelectorAll<HTMLButtonElement>('.hero-dot'));
+    const videos = Array.from(hero.querySelectorAll<HTMLVideoElement>('.hero-slide video'));
+    const prev = hero.querySelector<HTMLButtonElement>('.hero-prev');
+    const next = hero.querySelector<HTMLButtonElement>('.hero-next');
+    if (slides.length < 2) return;
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const AUTOPLAY_MS = 7000;
+    let index = 0;
+    let timer: number | undefined;
+
+    const playActive = (i: number) => {
+      videos.forEach((v, vi) => {
+        if (vi === i) {
+          const p = v.play();
+          if (p && typeof p.catch === 'function') p.catch(() => {});
+        } else {
+          v.pause();
+        }
+      });
+    };
+
+    const go = (i: number) => {
+      index = (i + slides.length) % slides.length;
+      slides.forEach((s, si) => s.classList.toggle('is-active', si === index));
+      copies.forEach((c, ci) => {
+        const on = ci === index;
+        c.classList.toggle('is-active', on);
+        // Keep off-screen copy out of the tab order / a11y tree.
+        if (on) c.removeAttribute('inert');
+        else c.setAttribute('inert', '');
+      });
+      dots.forEach((d, di) => {
+        const on = di === index;
+        d.classList.toggle('is-active', on);
+        d.setAttribute('aria-current', on ? 'true' : 'false');
+      });
+      playActive(index);
+    };
+
+    const stop = () => {
+      if (timer) window.clearInterval(timer);
+      timer = undefined;
+    };
+    const start = () => {
+      if (reduce) return;
+      stop();
+      timer = window.setInterval(() => go(index + 1), AUTOPLAY_MS);
+    };
+    // Manual navigation restarts the autoplay clock so it never jumps right after a tap.
+    const nav = (i: number) => {
+      go(i);
+      start();
+    };
+
+    prev?.addEventListener('click', () => nav(index - 1));
+    next?.addEventListener('click', () => nav(index + 1));
+    dots.forEach((d, di) => d.addEventListener('click', () => nav(di)));
+
+    hero.addEventListener('pointerenter', stop);
+    hero.addEventListener('pointerleave', start);
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) stop();
+      else start();
+    });
+
+    go(0);
+    start();
+  }
+
+  document.addEventListener('astro:page-load', initHeroSlider);
+</script>
