@@ -15,6 +15,9 @@ export const server = {
       email: z.string().trim().email(),
       phone: z.string().trim().min(7),
       message: z.string().trim().max(1000).optional(),
+      // Data-processing consent: an unchecked box is omitted from the form, so a
+      // missing value fails validation and surfaces as a field error.
+      consent: z.literal('on'),
       // Locale travels with the submission so notifications can be localized.
       locale: z.enum(['es', 'en']).default('es'),
       // Honeypot: real users leave it empty; bots tend to fill every field.

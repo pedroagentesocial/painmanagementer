@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig, envField } from 'astro/config';
 import vercel from '@astrojs/vercel';
+import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
@@ -36,6 +37,9 @@ export default defineConfig({
       LEAD_WEBHOOK_URL: envField.string({ context: 'server', access: 'secret', optional: true }),
     },
   },
+
+  // Sitemap with bilingual hreflang annotations (uses `site` + i18n config).
+  integrations: [sitemap({ i18n: { defaultLocale: 'es', locales: { es: 'es', en: 'en' } } })],
 
   // Vercel adapter: prerendered pages ship as static; routes that opt out with
   // `export const prerender = false` (and the Actions endpoint) run as Vercel

@@ -4,6 +4,7 @@ import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const privacyHref = lang === 'es' ? '/es/privacidad' : '/en/privacy';
 
 // No-JS fallback path: read the last submission result on reload.
 const result = Astro.getActionResult(actions.lead);
@@ -103,6 +104,24 @@ const errorText = 'mt-1.5 text-sm font-medium text-danger';
     <textarea id="lead-message" name="message" rows="3" class={field}></textarea>
   </div>
 
+  <div>
+    <label for="lead-consent" class="flex cursor-pointer items-start gap-3 text-sm leading-relaxed text-ink-soft">
+      <input
+        id="lead-consent"
+        type="checkbox"
+        name="consent"
+        required
+        aria-describedby="lead-consent-error"
+        aria-invalid={fieldErrors?.consent ? 'true' : undefined}
+        class="mt-0.5 h-5 w-5 flex-none cursor-pointer rounded accent-clay-600"
+      />
+      <span>
+        {t.lead.consent} <span class="text-danger" aria-hidden="true">*</span>
+      </span>
+    </label>
+    <p id="lead-consent-error" class={errorText} hidden={!fieldErrors?.consent}>{t.lead.errors.consent}</p>
+  </div>
+
   <button
     type="submit"
     data-idle={t.lead.submit}
@@ -111,6 +130,17 @@ const errorText = 'mt-1.5 text-sm font-medium text-danger';
   >
     {t.lead.submit}
   </button>
+
+  <p class="flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 text-center text-xs text-ink-faint">
+    <svg viewBox="0 0 24 24" class="h-3.5 w-3.5 flex-none" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="5" y="11" width="14" height="9" rx="2" />
+      <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+    </svg>
+    {t.lead.privacyNote}
+    <a href={privacyHref} class="font-medium text-clay-700 underline underline-offset-2 hover:text-clay-600">
+      {t.privacy.link}
+    </a>
+  </p>
 </form>
 
 <script>
@@ -124,7 +154,7 @@ const errorText = 'mt-1.5 text-sm font-medium text-danger';
     const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
     const successEl = document.getElementById('lead-success');
     const errorEl = document.getElementById('lead-error');
-    const fields = ['name', 'email', 'phone'] as const;
+    const fields = ['name', 'email', 'phone', 'consent'] as const;
 
     const inputFor = (f: string) => form.elements.namedItem(f) as HTMLInputElement | null;
     const errorElFor = (f: string) => document.getElementById(`lead-${f}-error`);

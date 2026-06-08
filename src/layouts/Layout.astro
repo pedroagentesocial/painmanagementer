@@ -3,9 +3,12 @@ import '@fontsource-variable/sora';
 import '@fontsource-variable/inter';
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
+import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getLangFromUrl, useTranslations, getLocalizedPathname } from '../i18n/utils';
+import { contact } from '../data/site';
 
 interface Props {
   title?: string;
@@ -16,8 +19,34 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const {
   title = `${t.site.name} — ${t.site.tagline}`,
-  description = t.hero.subtitle,
+  description = t.hero.slides[0].subtitle,
 } = Astro.props;
+
+// SEO: canonical + hreflang alternates + social image (absolute URLs).
+const site = Astro.site ?? new URL('https://www.painmanagementer.com');
+const canonical = new URL(Astro.url.pathname, site).href;
+const esUrl = new URL(getLocalizedPathname(Astro.url.pathname, 'es'), site).href;
+const enUrl = new URL(getLocalizedPathname(Astro.url.pathname, 'en'), site).href;
+const ogImage = new URL('/images/hero1.jpg', site).href;
+
+// Structured data — local clinic (helps local SEO + rich results).
+const clinicLd = {
+  '@context': 'https://schema.org',
+  '@type': 'MedicalClinic',
+  name: t.site.name,
+  description: t.site.tagline,
+  url: site.href,
+  image: ogImage,
+  telephone: contact.phone,
+  email: contact.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: contact.addressLines[0],
+    addressLocality: contact.addressLines[1],
+    addressCountry: 'ES',
+  },
+  medicalSpecialty: 'PainMedicine',
+};
 ---
 
 <!doctype html>
@@ -30,14 +59,33 @@ const {
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
+
+    {/* Canonical + bilingual hreflang alternates */}
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="es" href={esUrl} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="x-default" href={esUrl} />
+
+    {/* Open Graph / social */}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={t.site.name} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_US'} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#ffffff" />
+
+    {/* Structured data: local clinic */}
+    <script type="application/ld+json" set:html={JSON.stringify(clinicLd)} is:inline />
+
     {/* Smooth crossfade between locales (and any internal nav). */}
     <ClientRouter />
   </head>
   <body class="min-h-screen">
+    {/* Reading progress bar (fills as the page scrolls) */}
+    <div id="scroll-progress" class="scroll-progress" aria-hidden="true"></div>
     <div class="grain-overlay" aria-hidden="true"></div>
     <a
       href="#main-content"
@@ -84,6 +132,38 @@ const {
         firstLoad = false;
       });
     </script>
+
+    <script>
+      // Reading-progress bar: scaleX driven by scroll position (rAF-throttled).
+      // Single scroll listener, re-pointed on each View Transition.
+      let progressHandler: (() => void) | null = null;
+      function initScrollProgress() {
+        const bar = document.getElementById('scroll-progress');
+        if (!bar) return;
+        let ticking = false;
+        const update = () => {
+          ticking = false;
+          const doc = document.documentElement;
+          const max = doc.scrollHeight - doc.clientHeight;
+          const p = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
+          bar.style.transform = `scaleX(${p})`;
+        };
+        const onScroll = () => {
+          if (!ticking) {
+            ticking = true;
+            requestAnimationFrame(update);
+          }
+        };
+        if (progressHandler) window.removeEventListener('scroll', progressHandler);
+        progressHandler = onScroll;
+        window.addEventListener('scroll', progressHandler, { passive: true });
+        update();
+      }
+      document.addEventListener('astro:page-load', initScrollProgress);
+    </script>
+
+    <Analytics />
+    <SpeedInsights />
     <noscript>
       <style>
         .reveal {

@@ -25,8 +25,9 @@ const slides = t.hero.slides.map((copy, i) => ({ ...copy, src: videos[i] ?? vide
             muted
             loop
             playsinline
-            autoplay
-            preload={i === 0 ? 'auto' : 'metadata'}
+            poster={`/images/hero${i + 1}.jpg`}
+            autoplay={i === 0}
+            preload={i === 0 ? 'auto' : 'none'}
           >
             <source src={slide.src} type="video/mp4" />
           </video>
@@ -49,7 +50,7 @@ const slides = t.hero.slides.map((copy, i) => ({ ...copy, src: videos[i] ?? vide
        Slides are stacked in a single grid cell (not absolutely positioned), so
        the hero grows to fit the tallest copy on small screens instead of
        clipping it. min-h-svh keeps it full-height when the copy is shorter. */}
-  <div class="relative grid min-h-svh content-center">
+  <div id="hero-content" class="relative grid min-h-svh content-center">
     {
       slides.map((slide, i) => (
         <div
@@ -347,4 +348,39 @@ const slides = t.hero.slides.map((copy, i) => ({ ...copy, src: videos[i] ?? vide
   }
 
   document.addEventListener('astro:page-load', initHeroSlider);
+</script>
+
+<script>
+  // Subtle hero parallax: the copy drifts down + fades as you scroll past,
+  // adding depth. rAF-throttled, single listener, disabled for reduced-motion.
+  let heroParallaxHandler: (() => void) | null = null;
+  function initHeroParallax() {
+    if (heroParallaxHandler) {
+      window.removeEventListener('scroll', heroParallaxHandler);
+      heroParallaxHandler = null;
+    }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const hero = document.getElementById('hero');
+    const content = document.getElementById('hero-content');
+    if (!hero || !content) return;
+
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const h = hero.offsetHeight || window.innerHeight;
+      const p = Math.min(Math.max(window.scrollY / h, 0), 1);
+      content.style.transform = `translateY(${p * 38}px)`;
+      content.style.opacity = String(1 - p * 0.85);
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+    heroParallaxHandler = onScroll;
+    window.addEventListener('scroll', heroParallaxHandler, { passive: true });
+    update();
+  }
+  document.addEventListener('astro:page-load', initHeroParallax);
 </script>

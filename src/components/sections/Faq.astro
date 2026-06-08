@@ -1,0 +1,85 @@
+---
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../../i18n/utils';
+import { contact } from '../../data/site';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const localize = useTranslatedPath(lang);
+
+const tel = `tel:${contact.phone.replace(/[^+\d]/g, '')}`;
+const questions = t.logistics.questions;
+
+// FAQ rich-result structured data (SEO).
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: questions.map((q) => ({
+    '@type': 'Question',
+    name: q.question,
+    acceptedAnswer: { '@type': 'Answer', text: q.answer },
+  })),
+};
+---
+
+<section id="faq" class="scroll-mt-24 bg-paper-2 py-20 lg:py-28">
+  <div class="mx-auto grid max-w-6xl gap-12 px-5 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+    {/* Intro + contact prompt */}
+    <div class="reveal lg:sticky lg:top-28 lg:self-start">
+      <p class="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.16em] text-clay-700">
+        <span class="h-px w-8 bg-clay-500" aria-hidden="true"></span>
+        {t.faq.eyebrow}
+      </p>
+      <h2 class="font-display mt-5 text-[clamp(2.2rem,5.5vw,4rem)] font-bold text-ink">
+        {t.faq.title}
+      </h2>
+      <p class="mt-5 max-w-md text-lg text-ink-soft">{t.faq.subtitle}</p>
+
+      <div class="mt-9 rounded-3xl border border-ink/10 bg-paper p-6 shadow-[var(--shadow-soft)]">
+        <h3 class="font-display text-lg font-bold text-ink">{t.faq.stillTitle}</h3>
+        <p class="mt-2 text-sm leading-relaxed text-ink-soft">{t.faq.stillText}</p>
+        <div class="mt-5 flex flex-col gap-3 sm:flex-row">
+          <a
+            href={tel}
+            class="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-ink/15 px-5 py-3 text-sm font-semibold text-ink transition-colors hover:border-clay-500 hover:text-clay-700"
+          >
+            <svg viewBox="0 0 24 24" class="h-4.5 w-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 5 5L19 13l2 5v3a1 1 0 0 1-1 1A17 17 0 0 1 4 6a1 1 0 0 1 1-2Z" />
+            </svg>
+            {t.faq.callCta}
+          </a>
+          <a
+            href={`${localize()}#contact`}
+            class="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-clay-600 px-5 py-3 text-sm font-semibold text-paper shadow-sm transition-[background-color,transform] duration-200 hover:-translate-y-0.5 hover:bg-clay-700 active:translate-y-0"
+          >
+            {t.faq.contactCta}
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    {/* Accordion */}
+    <ul role="list" class="divide-y divide-ink/12 border-y border-ink/12">
+      {
+        questions.map((q, i) => (
+          <li class="reveal" style={`--reveal-delay:${i * 60}ms`}>
+            <details class="group">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-left text-lg font-semibold text-ink transition-colors hover:text-clay-700">
+                {q.question}
+                <span
+                  class="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-clay-50 text-xl text-clay-600 ring-1 ring-clay-100 transition-transform duration-300 group-open:rotate-45"
+                  aria-hidden="true"
+                >
+                  +
+                </span>
+              </summary>
+              <p class="pb-5 pr-12 leading-relaxed text-ink-soft">{q.answer}</p>
+            </details>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />
+</section>

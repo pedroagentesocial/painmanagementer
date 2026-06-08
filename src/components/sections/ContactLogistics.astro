@@ -1,14 +1,27 @@
 ---
 import LeadForm from '../LeadForm.astro';
+import Icon from '../visual/Icon.astro';
+import SocialLinks from '../SocialLinks.astro';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
-import { insurers, contact } from '../../data/site';
+import { insurers, contact, whatsappNumber } from '../../data/site';
+import { contactIcons, socialIcons } from '../../icons';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+const tel = `tel:${contact.phone.replace(/[^+\d]/g, '')}`;
+const mailto = `mailto:${contact.email}`;
+const wa = `https://wa.me/${whatsappNumber}`;
+
+const methods = [
+  { icon: contactIcons.phone, label: t.logistics.phoneLabel, value: contact.phone, href: tel },
+  { icon: socialIcons.whatsapp, label: t.logistics.whatsappLabel, value: t.logistics.whatsappCta, href: wa, external: true },
+  { icon: contactIcons.mail, label: t.logistics.emailLabel, value: contact.email, href: mailto },
+];
 ---
 
-<section id="contact" class="scroll-mt-24 py-20 lg:py-28">
-  <div class="mx-auto grid max-w-6xl gap-12 px-5 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+<section id="contact" class="scroll-mt-24 bg-paper-2 py-20 lg:py-28">
+  <div class="mx-auto grid max-w-6xl gap-10 px-5 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-14">
     {/* Primary action: the form */}
     <div class="reveal">
       <p class="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.16em] text-clay-700">
@@ -25,33 +38,101 @@ const t = useTranslations(lang);
       </div>
     </div>
 
-    {/* Logistics: location, insurers, practical questions */}
-    <div class="reveal flex flex-col gap-9 lg:pt-4" style="--reveal-delay:100ms">
-      <div>
-        <h3 class="text-lg font-semibold text-ink">{t.logistics.locationHeading}</h3>
-        <address class="mt-3 not-italic leading-relaxed text-ink-soft">
-          {contact.addressLines.map((line) => <span class="block">{line}</span>)}
-          <a
-            href={`tel:${contact.phone.replace(/\s/g, '')}`}
-            class="mt-2 block font-medium text-clay-700 underline-offset-4 hover:underline"
-          >
-            {contact.phone}
-          </a>
-          <a
-            href={`mailto:${contact.email}`}
-            class="block font-medium text-clay-700 underline-offset-4 hover:underline"
-          >
-            {contact.email}
-          </a>
-        </address>
+    {/* Branded contact panel: channels, location, hours, socials */}
+    <aside class="reveal lg:sticky lg:top-28" style="--reveal-delay:120ms">
+      <div class="surface-espresso relative overflow-hidden rounded-3xl p-7 text-paper shadow-[var(--shadow-lift)] sm:p-9">
+        {/* Decorative arcs */}
+        <svg
+          class="pointer-events-none absolute -right-16 -top-16 h-64 w-64 text-clay-300/25"
+          viewBox="0 0 200 200"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <circle cx="150" cy="50" r="40" />
+          <circle cx="150" cy="50" r="72" stroke-opacity="0.6" />
+          <circle cx="150" cy="50" r="106" stroke-opacity="0.35" />
+        </svg>
+
+        <div class="relative">
+          <h3 class="font-display text-2xl font-bold">{t.logistics.panelTitle}</h3>
+          <p class="on-dark mt-2 max-w-sm text-paper/70">{t.logistics.panelSubtitle}</p>
+
+          {/* Contact channels */}
+          <ul role="list" class="mt-7 space-y-2">
+            {
+              methods.map((m, i) => (
+                <li class="reveal" style={`--reveal-delay:${180 + i * 80}ms`}>
+                  <a
+                    href={m.href}
+                    target={m.external ? '_blank' : undefined}
+                    rel={m.external ? 'noopener noreferrer' : undefined}
+                    class="group -mx-2 flex items-center gap-4 rounded-2xl px-2 py-2.5 transition-colors hover:bg-white/5"
+                  >
+                    <span class="flex h-11 w-11 flex-none items-center justify-center rounded-xl bg-white/10 text-clay-300 ring-1 ring-white/15 transition-colors group-hover:bg-clay-600 group-hover:text-paper">
+                      <Icon paths={m.icon} class="h-5 w-5" />
+                    </span>
+                    <span class="min-w-0">
+                      <span class="block text-xs font-semibold uppercase tracking-wide text-paper/55">
+                        {m.label}
+                      </span>
+                      <span class="block truncate font-semibold text-paper">{m.value}</span>
+                    </span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+
+          {/* Location + hours */}
+          <div class="mt-7 grid gap-6 border-t border-paper/15 pt-7 sm:grid-cols-2">
+            <div class="reveal" style="--reveal-delay:440ms">
+              <span class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-paper/55">
+                <Icon paths={contactIcons.location} class="h-4 w-4 text-clay-300" />
+                {t.logistics.locationHeading}
+              </span>
+              <address class="mt-2 not-italic leading-relaxed text-paper/80">
+                {contact.addressLines.map((line) => <span class="block">{line}</span>)}
+              </address>
+            </div>
+            <div class="reveal" style="--reveal-delay:520ms">
+              <span class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-paper/55">
+                <Icon paths={contactIcons.clock} class="h-4 w-4 text-clay-300" />
+                {t.logistics.hoursHeading}
+              </span>
+              <ul role="list" class="mt-2 space-y-1 text-sm text-paper/80">
+                {
+                  t.logistics.hours.map((h) => (
+                    <li class="flex justify-between gap-3">
+                      <span>{h.days}</span>
+                      <span class="text-paper/60">{h.time}</span>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          </div>
+
+          {/* Socials */}
+          <div class="reveal mt-7 border-t border-paper/15 pt-7" style="--reveal-delay:600ms">
+            <span class="text-xs font-semibold uppercase tracking-wide text-paper/55">
+              {t.logistics.followHeading}
+            </span>
+            <SocialLinks class="mt-3" />
+          </div>
+        </div>
       </div>
 
-      <div>
-        <h3 class="text-lg font-semibold text-ink">{t.logistics.insuranceHeading}</h3>
+      {/* Insurers */}
+      <div class="reveal mt-7" style="--reveal-delay:680ms">
+        <h3 class="text-sm font-semibold uppercase tracking-wide text-ink-faint">
+          {t.logistics.insuranceHeading}
+        </h3>
         <ul role="list" class="mt-3 flex flex-wrap gap-2">
           {
             insurers.map((name) => (
-              <li class="rounded-full border border-ink/12 px-3.5 py-1.5 text-sm text-ink-soft">
+              <li class="rounded-full border border-ink/12 bg-paper px-3.5 py-1.5 text-sm text-ink-soft">
                 {name}
               </li>
             ))
@@ -59,25 +140,6 @@ const t = useTranslations(lang);
         </ul>
         <p class="mt-3 text-sm text-ink-faint">{t.logistics.insuranceNote}</p>
       </div>
-
-      <div>
-        <h3 class="text-lg font-semibold text-ink">{t.logistics.questionsHeading}</h3>
-        <div class="mt-3 divide-y divide-ink/12 border-y border-ink/12">
-          {
-            t.logistics.questions.map((q) => (
-              <details class="group">
-                <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-4 font-medium text-ink transition-colors hover:text-clay-700">
-                  {q.question}
-                  <span class="flex-none text-xl text-clay-600 transition-transform duration-300 group-open:rotate-45" aria-hidden="true">
-                    +
-                  </span>
-                </summary>
-                <p class="pb-4 leading-relaxed text-ink-soft">{q.answer}</p>
-              </details>
-            ))
-          }
-        </div>
-      </div>
-    </div>
+    </aside>
   </div>
 </section>

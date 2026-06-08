@@ -19,12 +19,12 @@ const localize = useTranslatedPath(lang);
       <p class="mt-5 text-lg text-ink-soft">{t.howItWorks.subtitle}</p>
     </div>
 
-    <ol class="reveal relative mt-16 grid gap-12 lg:grid-cols-4 lg:gap-8">
+    <ol class="relative mt-16 grid gap-12 lg:grid-cols-4 lg:gap-8">
       {/* Connecting line behind the badges (desktop only) */}
       <div class="absolute left-7 right-7 top-7 hidden h-px bg-clay-200 lg:block" aria-hidden="true"></div>
       {
         t.howItWorks.steps.map((step, i) => (
-          <li class="relative">
+          <li class="reveal relative" style={`--reveal-delay:${i * 90}ms`}>
             <span class="font-display relative z-10 flex h-14 w-14 items-center justify-center rounded-2xl bg-clay-600 text-2xl font-extrabold text-paper ring-8 ring-paper">
               {i + 1}
             </span>

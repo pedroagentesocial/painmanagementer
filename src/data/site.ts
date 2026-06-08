@@ -23,3 +23,12 @@ export const contact = {
   email: 'hola@painmanagementer.com',
   addressLines: ['Calle de Ejemplo 123', '28001 Madrid'],
 };
+
+/** WhatsApp + social profiles — PLACEHOLDER. Replace with the clinic's real handles. */
+export const whatsappNumber = '34900000000';
+
+export const social: { name: string; icon: string; href: string; color: string }[] = [
+  { name: 'WhatsApp', icon: 'whatsapp', href: `https://wa.me/${whatsappNumber}`, color: '#25D366' },
+  { name: 'Instagram', icon: 'instagram', href: 'https://instagram.com/painmanagementer', color: '#E1306C' },
+  { name: 'Facebook', icon: 'facebook', href: 'https://facebook.com/painmanagementer', color: '#1877F2' },
+];

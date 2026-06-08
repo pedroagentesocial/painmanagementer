@@ -15,12 +15,15 @@ export const es = {
   nav: {
     conditions: 'Tu dolor',
     treatments: 'Tratamientos',
+    services: 'Servicios',
     why: 'Por qué nosotros',
     how: 'Cómo funciona',
+    faq: 'Preguntas',
     testimonials: 'Testimonios',
     contact: 'Contacto',
     book: 'Agendar valoración',
     bookShort: 'Agendar',
+    menu: 'Menú',
   },
   langSwitcher: {
     label: 'Cambiar idioma',
@@ -64,11 +67,98 @@ export const es = {
       goTo: 'Ir al video',
     },
   },
+  services: {
+    eyebrow: 'Nuestros servicios',
+    title: 'Todo tu cuidado, en un solo lugar',
+    subtitle:
+      'Del diagnóstico por imagen a la rehabilitación: un mismo equipo y un proceso claro para que recuperes tu movilidad sin dar vueltas.',
+    detailsCta: 'Ver detalles',
+    approachTitle: 'Cada servicio incluye',
+    approach: [
+      'Una revisión breve con objetivos claros',
+      'Un plan simple y personalizado',
+      'Seguimientos breves con ajustes útiles',
+    ],
+    call: 'Llamar ahora',
+    book: 'Agendar cita',
+    close: 'Cerrar',
+    items: [
+      {
+        title: 'Servicios de Imágenes Médicas',
+        short: 'Diagnósticos confiables con tecnología de precisión.',
+        description:
+          'Estudios de imagen con equipos de última generación —Rayos X, Resonancia (MRI), Tomografía (CT), IMEKA, Ultrasonido y PET— para localizar el origen exacto de tu dolor.',
+        points: [
+          'Rayos X, MRI, CT, IMEKA, Ultrasonido y PET',
+          'Entrega de resultados en 24–48 horas',
+          'Informes claros y fáciles de entender',
+        ],
+      },
+      {
+        title: 'Medicina General',
+        short: 'Consultas, chequeos y seguimiento integral.',
+        description:
+          'Atención médica cercana y clara: valoramos tu estado general, realizamos chequeos completos y damos seguimiento a tu evolución en cada etapa.',
+        points: [
+          'Consultas y chequeos completos',
+          'Seguimiento cercano y continuo',
+          'Orientación clara en cada paso',
+        ],
+      },
+      {
+        title: 'Fisioterapia y Manejo del Dolor',
+        short: 'Rehabilitación guiada y alivio real del dolor.',
+        description:
+          'Planes de rehabilitación personalizados para aliviar el dolor, recuperar movilidad y prevenir recaídas. Incluye segundas opiniones expertas cuando las necesitas.',
+        points: [
+          'Planes de rehabilitación guiados',
+          'Alivio del dolor y recuperación de movilidad',
+          'Segundas opiniones expertas',
+        ],
+      },
+      {
+        title: 'Terapia Mental',
+        short: 'Psicoterapia enfocada en tu bienestar.',
+        description:
+          'Acompañamiento psicológico para el dolor crónico, la ansiedad y el bienestar emocional, con un enfoque claro, humano y sin juicios.',
+        points: [
+          'Psicoterapia para dolor crónico y ansiedad',
+          'Enfoque claro y cercano',
+          'Bienestar y apoyo emocional',
+        ],
+      },
+      {
+        title: 'Tratamiento Post-Accidente Automovilístico',
+        short: 'Atención especializada tras un accidente.',
+        description:
+          'Evaluación inmediata, tratamiento y recuperación segura después de un accidente de tránsito, con seguimiento en cada etapa de tu recuperación.',
+        points: [
+          'Evaluación inmediata',
+          'Tratamiento y rehabilitación segura',
+          'Seguimiento en cada etapa',
+        ],
+      },
+      {
+        title: 'Cuidado del Dolor Dirigido',
+        short: 'Soluciones específicas para cada zona.',
+        description:
+          'Tratamientos enfocados para cabeza, espalda, cadera, rodilla, hombro, cuello y pie: un abordaje específico por zona para lograr soluciones duraderas.',
+        points: [
+          'Cabeza, espalda, cadera, rodilla, hombro, cuello y pie',
+          'Abordaje específico por zona',
+          'Soluciones duraderas',
+        ],
+      },
+    ],
+  },
   conditions: {
     eyebrow: 'Tu dolor',
     title: '¿Dónde te duele?',
     subtitle:
       'Empieza por identificar tu dolor. Tratamos las causas, no solo los síntomas.',
+    notListedTitle: '¿No ves tu dolor aquí?',
+    notListedText: 'Tratamos muchas más condiciones. Cuéntanos tu caso y te orientamos sin compromiso.',
+    notListedCta: 'Consúltanos',
     items: [
       {
         title: 'Espalda y cuello',
@@ -101,26 +191,43 @@ export const es = {
     title: 'Tratamientos precisos, no parches',
     subtitle:
       'Tras el diagnóstico diseñamos un plan a tu medida. Priorizamos lo mínimamente invasivo.',
+    cta: 'Agendar valoración',
     items: [
       {
         title: 'Infiltraciones y bloqueos guiados por imagen',
+        tag: 'Mínimamente invasivo',
         description:
-          'Llevamos la medicación exactamente al punto del dolor, con control ecográfico o radiológico.',
+          'Llevamos la medicación exactamente al punto del dolor, con control ecográfico o radiológico para máxima precisión.',
+        points: [
+          'Precisión guiada por ecografía o rayos X',
+          'Procedimiento ambulatorio',
+          'Alivio dirigido al foco del dolor',
+        ],
       },
       {
         title: 'Radiofrecuencia',
+        tag: 'Sin cirugía',
         description:
-          'Desactivamos los nervios que transmiten el dolor para un alivio prolongado, sin cirugía.',
+          'Desactivamos los nervios que transmiten el dolor para un alivio prolongado, sin cirugía ni ingreso.',
+        points: ['Sin cirugía ni ingreso', 'Alivio prolongado', 'Recuperación rápida'],
       },
       {
         title: 'Neuromodulación',
+        tag: 'Dolor crónico',
         description:
-          'Tecnología que reeduca la señal del dolor en casos crónicos y complejos.',
+          'Tecnología que reeduca la señal del dolor en casos crónicos y complejos, ajustándose a tu evolución.',
+        points: [
+          'Para dolor crónico y complejo',
+          'Reeduca la señal del dolor',
+          'Ajustable a tu evolución',
+        ],
       },
       {
         title: 'Terapias regenerativas y fisioterapia',
+        tag: 'Recuperación',
         description:
-          'Recuperamos el tejido y reentrenamos el movimiento para que el alivio dure.',
+          'Recuperamos el tejido dañado y reentrenamos el movimiento para que el alivio sea duradero.',
+        points: ['Recupera el tejido dañado', 'Reentrena el movimiento', 'Resultados duraderos'],
       },
     ],
   },
@@ -213,16 +320,33 @@ export const es = {
     message: 'Cuéntanos sobre tu dolor (opcional)',
     submit: 'Enviar solicitud',
     submitting: 'Enviando…',
+    consent:
+      'He leído y acepto la política de privacidad y autorizo el tratamiento de mis datos para que el equipo médico me contacte.',
+    privacyNote: 'Tus datos solo se usan para gestionar tu solicitud. Nunca los compartimos con terceros.',
     success: '¡Gracias! Hemos recibido tu solicitud y te contactaremos pronto.',
     error: 'No pudimos enviar tu solicitud. Inténtalo de nuevo en unos minutos.',
     errors: {
       name: 'Indícanos tu nombre (mínimo 2 caracteres).',
       email: 'Introduce un correo electrónico válido.',
       phone: 'Introduce un teléfono válido (mínimo 7 dígitos).',
+      consent: 'Debes aceptar el tratamiento de datos para continuar.',
     },
   },
   logistics: {
+    panelTitle: 'Hablemos',
+    panelSubtitle: 'Estamos para escucharte. Elige el canal que prefieras.',
+    phoneLabel: 'Llámanos',
+    whatsappLabel: 'WhatsApp',
+    whatsappCta: 'Escríbenos por WhatsApp',
+    emailLabel: 'Escríbenos',
     locationHeading: 'Dónde estamos',
+    hoursHeading: 'Horario de atención',
+    hours: [
+      { days: 'Lunes a viernes', time: '9:00 – 20:00' },
+      { days: 'Sábado', time: '9:00 – 14:00' },
+      { days: 'Domingo', time: 'Cerrado' },
+    ],
+    followHeading: 'Síguenos',
     insuranceHeading: 'Seguros con los que trabajamos',
     insuranceNote: '¿No ves el tuyo? Pregúntanos: trabajamos con más aseguradoras.',
     questionsHeading: 'Antes de venir',
@@ -246,6 +370,56 @@ export const es = {
         question: '¿Trabajáis con mi aseguradora?',
         answer:
           'Indícanos la tuya en el formulario y te confirmamos la cobertura antes de la primera cita.',
+      },
+    ],
+  },
+  faq: {
+    eyebrow: 'Preguntas frecuentes',
+    title: 'Resolvemos tus dudas',
+    subtitle: 'Lo que más nos preguntan antes de la primera cita. ¿Te queda alguna? Estamos a una llamada.',
+    stillTitle: '¿No encuentras tu respuesta?',
+    stillText: 'Escríbenos o llámanos y te orientamos sin compromiso.',
+    callCta: 'Llamar ahora',
+    contactCta: 'Agendar valoración',
+  },
+  notFound: {
+    code: '404',
+    title: 'Página no encontrada',
+    message: 'Lo sentimos, la página que buscas no existe o se ha movido.',
+    home: 'Volver al inicio',
+  },
+  privacy: {
+    link: 'Política de privacidad',
+    title: 'Política de privacidad',
+    intro:
+      'Tu privacidad nos importa. Aquí te explicamos qué datos recogemos, para qué los usamos y qué derechos tienes. (Plantilla orientativa: revísala con tu asesor legal antes de publicar.)',
+    updatedLabel: 'Última actualización',
+    updated: 'junio de 2026',
+    backHome: 'Volver al inicio',
+    sections: [
+      {
+        heading: 'Responsable del tratamiento',
+        body: 'PainManagement ER es responsable de los datos personales que nos facilitas a través de este sitio. Puedes contactarnos en hola@painmanagementer.com.',
+      },
+      {
+        heading: 'Qué datos recogemos',
+        body: 'Recogemos los datos que nos envías en el formulario de contacto (nombre, correo, teléfono y, opcionalmente, tu mensaje), además de datos técnicos básicos de navegación de forma anónima.',
+      },
+      {
+        heading: 'Para qué los usamos',
+        body: 'Usamos tus datos únicamente para responder a tu solicitud, gestionar tu valoración y darte seguimiento. No los usamos para publicidad de terceros.',
+      },
+      {
+        heading: 'Base legal',
+        body: 'Tratamos tus datos sobre la base de tu consentimiento explícito, que otorgas al marcar la casilla del formulario, y de nuestro interés legítimo en atender tu solicitud.',
+      },
+      {
+        heading: 'Conservación',
+        body: 'Conservamos tus datos durante el tiempo necesario para gestionar tu solicitud y cumplir las obligaciones legales aplicables. Después se eliminan de forma segura.',
+      },
+      {
+        heading: 'Tus derechos',
+        body: 'Puedes acceder, rectificar o suprimir tus datos, así como oponerte o limitar su tratamiento, escribiéndonos a hola@painmanagementer.com. También puedes reclamar ante la autoridad de protección de datos competente.',
       },
     ],
   },

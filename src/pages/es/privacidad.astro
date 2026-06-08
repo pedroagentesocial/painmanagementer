@@ -1,0 +1,11 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PrivacyContent from '../../components/PrivacyContent.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<Layout title={`${t.privacy.title} — ${t.site.name}`} description={t.privacy.intro}>
+  <PrivacyContent />
+</Layout>

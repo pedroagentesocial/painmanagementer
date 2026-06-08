@@ -35,7 +35,10 @@ const t = useTranslations(lang);
         {
           t.whyUs.stats.map((stat) => (
             <div>
-              <div class="font-display text-[clamp(2.5rem,4vw,3.25rem)] font-extrabold leading-none text-clay-300">
+              <div
+                class="font-display text-[clamp(2.5rem,4vw,3.25rem)] font-extrabold leading-none text-clay-300"
+                data-countup
+              >
                 {stat.value}
               </div>
               <div class="mt-2 text-sm text-paper/60">{stat.label}</div>
@@ -67,3 +70,59 @@ const t = useTranslations(lang);
     </ul>
   </div>
 </section>
+
+<script>
+  // Count-up: animate stat numbers from 0 when they scroll into view. Preserves
+  // any prefix/suffix (+, %, " años") and locale thousands grouping. Skipped
+  // under reduced-motion. Re-initialised on every Astro View Transition.
+  function initCountUp() {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const els = Array.from(document.querySelectorAll<HTMLElement>('[data-countup]'));
+    if (!els.length) return;
+
+    const locale = document.documentElement.lang || 'es';
+    const fmt = new Intl.NumberFormat(locale);
+
+    const run = (el: HTMLElement) => {
+      if (el.dataset.done === '1') return;
+      el.dataset.done = '1';
+      const text = (el.textContent || '').trim();
+      const match = text.match(/^(\D*)([\d.,]+)(\D*)$/);
+      if (!match) return;
+      const [, prefix, numStr, suffix] = match;
+      const target = parseInt(numStr.replace(/[.,]/g, ''), 10);
+      if (!Number.isFinite(target)) return;
+
+      if (reduce) {
+        el.textContent = `${prefix}${fmt.format(target)}${suffix}`;
+        return;
+      }
+
+      const DURATION = 1100;
+      let start: number | null = null;
+      const tick = (now: number) => {
+        if (start === null) start = now;
+        const p = Math.min((now - start) / DURATION, 1);
+        const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+        el.textContent = `${prefix}${fmt.format(Math.round(target * eased))}${suffix}`;
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            run(entry.target as HTMLElement);
+            io.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.6 },
+    );
+    els.forEach((el) => io.observe(el));
+  }
+
+  document.addEventListener('astro:page-load', initCountUp);
+</script>

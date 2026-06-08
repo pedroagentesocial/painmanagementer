@@ -1,0 +1,84 @@
+---
+import Icon from './visual/Icon.astro';
+import { social } from '../data/site';
+import { socialIcons } from '../icons';
+
+interface Props {
+  class?: string;
+}
+const { class: cls = '' } = Astro.props;
+---
+
+<ul role="list" class:list={['flex gap-3', cls]}>
+  {
+    social.map((s) => (
+      <li>
+        <a
+          href={s.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={s.name}
+          class="social-btn"
+          style={`--social-color:${s.color}`}
+        >
+          <span class="social-icon">
+            <Icon paths={socialIcons[s.icon]} class="h-5 w-5" />
+          </span>
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  /* Hover lights up each button in its network's colour and the icon slides in
+     from the top (Uiverse-style), adapted to sit on our dark surfaces. */
+  .social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 3rem;
+    width: 3rem;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+    transition:
+      background-color 300ms ease,
+      box-shadow 300ms ease,
+      transform 300ms ease;
+  }
+  .social-btn:hover {
+    background-color: var(--social-color);
+    box-shadow: inset 0 0 0 1px transparent;
+  }
+  .social-btn:active {
+    transform: scale(0.9);
+  }
+  .social-icon {
+    display: flex;
+  }
+  .social-btn:hover .social-icon {
+    animation: social-slide-in 300ms both;
+  }
+
+  @keyframes social-slide-in {
+    0% {
+      transform: translateY(-2.6rem);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .social-btn,
+    .social-btn:hover .social-icon {
+      transition: none;
+      animation: none;
+    }
+  }
+</style>

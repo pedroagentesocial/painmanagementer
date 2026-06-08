@@ -1,0 +1,187 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+// Served at the bare root, so it renders in the default locale (es).
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<Layout title={`${t.notFound.title} — ${t.site.name}`} description={t.notFound.message}>
+  <section class="mx-auto flex min-h-[78svh] max-w-2xl flex-col items-center justify-center px-5 py-28 text-center sm:px-8">
+    {/* Animated face (assembles, then blinks + looks around) */}
+    <div class="face-404" aria-hidden="true">
+      <svg
+        class="face"
+        viewBox="0 0 200 210"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="7"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <g class="face__eyes">
+          <circle cx="64" cy="60" r="30"></circle>
+          <circle cx="136" cy="60" r="30"></circle>
+          <g class="face__eye-lid">
+            <path d="M34 60 A30 30 0 0 1 94 60"></path>
+            <path d="M106 60 A30 30 0 0 1 166 60"></path>
+          </g>
+          <g class="face__pupil">
+            <circle cx="64" cy="62" r="8"></circle>
+            <circle cx="136" cy="62" r="8"></circle>
+          </g>
+        </g>
+        <path class="face__nose" d="M93 96 q7 11 14 0"></path>
+        <path class="face__mouth-left" pathLength="102" stroke-dasharray="102" d="M58 158 Q84 184 100 172"></path>
+        <path class="face__mouth-right" pathLength="102" stroke-dasharray="102" d="M142 158 Q116 184 100 172"></path>
+      </svg>
+    </div>
+
+    <p class="font-display mt-2 text-sm font-semibold uppercase tracking-[0.2em] text-clay-600">
+      {t.notFound.code}
+    </p>
+    <h1 class="font-display mt-3 text-[clamp(1.8rem,5vw,3rem)] font-bold text-ink">
+      {t.notFound.title}
+    </h1>
+    <p class="mt-4 max-w-md text-lg text-ink-soft">{t.notFound.message}</p>
+    <div class="mt-9 flex flex-wrap items-center justify-center gap-3">
+      <a
+        href="/es/"
+        class="rounded-full bg-clay-600 px-7 py-3.5 text-base font-semibold text-paper shadow-sm transition-[background-color,transform] duration-200 hover:-translate-y-0.5 hover:bg-clay-700 active:translate-y-0"
+      >
+        {t.notFound.home}
+      </a>
+      <a
+        href="/en/"
+        class="rounded-full border border-ink/15 px-7 py-3.5 text-base font-semibold text-ink transition-colors hover:border-clay-500 hover:text-clay-700"
+      >
+        English
+      </a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .face-404 {
+    color: var(--color-ink);
+  }
+  .face {
+    width: 180px;
+    max-width: 56vw;
+  }
+  .face__pupil {
+    fill: var(--color-clay-500);
+    stroke: none;
+  }
+
+  /* --- Ana Tudor's SVG face choreography (adapted) --- */
+  .face__eyes,
+  .face__eye-lid,
+  .face__mouth-left,
+  .face__mouth-right,
+  .face__nose,
+  .face__pupil {
+    animation: face-eyes 1s 0.3s forwards;
+  }
+  .face__eye-lid,
+  .face__pupil {
+    animation-duration: 4s;
+    animation-delay: 1.3s;
+    animation-iteration-count: infinite;
+  }
+  .face__eye-lid {
+    animation-name: face-eye-lid;
+  }
+  .face__mouth-left {
+    animation-name: face-mouth-left;
+    stroke-dashoffset: 0;
+  }
+  .face__mouth-right {
+    animation-name: face-mouth-right;
+    stroke-dashoffset: 0;
+  }
+  .face__nose {
+    animation-name: face-nose;
+  }
+  .face__pupil {
+    animation-name: face-pupil;
+  }
+
+  @keyframes face-eyes {
+    from {
+      transform: translateY(112.5px);
+    }
+    to {
+      transform: translateY(15px);
+    }
+  }
+  @keyframes face-eye-lid {
+    0%,
+    40%,
+    45%,
+    100% {
+      transform: translateY(0);
+    }
+    42.5% {
+      transform: translateY(17.5px);
+    }
+  }
+  @keyframes face-pupil {
+    0%,
+    37.5%,
+    40%,
+    45%,
+    87.5%,
+    100% {
+      stroke-dashoffset: 0;
+      transform: translate(0, 0);
+    }
+    12.5%,
+    25%,
+    62.5%,
+    75% {
+      transform: translate(-28px, 0);
+    }
+    42.5% {
+      stroke-dashoffset: 35;
+      transform: translate(0, 17.5px);
+    }
+  }
+  @keyframes face-mouth-left {
+    from,
+    50% {
+      stroke-dashoffset: -102;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes face-mouth-right {
+    from,
+    50% {
+      stroke-dashoffset: 102;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes face-nose {
+    from {
+      transform: translate(0, 0);
+    }
+    to {
+      transform: translate(0, 22.5px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .face__eyes,
+    .face__eye-lid,
+    .face__mouth-left,
+    .face__mouth-right,
+    .face__nose,
+    .face__pupil {
+      animation: none;
+    }
+  }
+</style>

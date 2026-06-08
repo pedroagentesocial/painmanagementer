@@ -1,0 +1,317 @@
+---
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../../i18n/utils';
+import Icon from '../visual/Icon.astro';
+import { servicesIcons } from '../../icons';
+import { contact } from '../../data/site';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const localize = useTranslatedPath(lang);
+
+const tel = `tel:${contact.phone.replace(/[^+\d]/g, '')}`;
+
+// On-brand gradient "image" headers — one per card, cycling brand hues so the
+// grid reads as colourful without any stock photography (keeps our aesthetic).
+const visuals = [
+  'linear-gradient(145deg, var(--color-clay-500), var(--color-clay-700))',
+  'linear-gradient(145deg, var(--color-ochre-400), var(--color-ochre-700))',
+  'linear-gradient(145deg, var(--color-espresso-2), var(--color-espresso))',
+  'linear-gradient(145deg, var(--color-clay-400), var(--color-clay-600))',
+  'linear-gradient(145deg, var(--color-ochre-500), var(--color-clay-700))',
+  'linear-gradient(145deg, var(--color-clay-600), var(--color-espresso))',
+];
+const visualFor = (i: number) => visuals[i % visuals.length];
+
+const services = t.services.items.map((item, i) => ({
+  ...item,
+  icon: servicesIcons[i] ?? servicesIcons[0],
+  visual: visualFor(i),
+}));
+---
+
+<section id="services" class="scroll-mt-24 bg-paper-2 py-20 lg:py-28">
+  <div class="mx-auto max-w-6xl px-5 sm:px-8">
+    <div class="reveal max-w-2xl">
+      <p class="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.16em] text-clay-700">
+        <span class="h-px w-8 bg-clay-500" aria-hidden="true"></span>
+        {t.services.eyebrow}
+      </p>
+      <h2 class="font-display mt-5 text-[clamp(2.2rem,5.5vw,4rem)] font-bold text-ink">
+        {t.services.title}
+      </h2>
+      <p class="mt-5 text-lg text-ink-soft">{t.services.subtitle}</p>
+    </div>
+
+    <ul role="list" class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        services.map((service, i) => (
+          <li
+            class="reveal group relative flex flex-col overflow-hidden rounded-3xl border border-ink/10 bg-paper shadow-[var(--shadow-soft)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1.5 hover:shadow-[var(--shadow-lift)]"
+            style={`--reveal-delay:${(i % 3) * 80}ms`}
+          >
+            {/* Branded visual header */}
+            <div
+              class="relative aspect-[16/10] overflow-hidden"
+              style={`background-image:${service.visual}`}
+            >
+              {/* Decorative concentric arcs */}
+              <svg
+                class="pointer-events-none absolute -right-10 -top-10 h-48 w-48 text-white/15 transition-transform duration-500 group-hover:scale-110"
+                viewBox="0 0 200 200"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
+                <circle cx="150" cy="50" r="34" />
+                <circle cx="150" cy="50" r="62" stroke-opacity="0.7" />
+                <circle cx="150" cy="50" r="92" stroke-opacity="0.45" />
+              </svg>
+              <span
+                class="absolute left-4 top-4 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-paper ring-1 ring-white/25 backdrop-blur-sm"
+                aria-hidden="true"
+              >
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <span class="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/15 text-paper ring-1 ring-white/25 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
+                  <Icon paths={service.icon} class="h-8 w-8" />
+                </span>
+              </div>
+            </div>
+
+            {/* Body */}
+            <div class="flex flex-1 flex-col p-6">
+              <h3 class="font-display text-xl font-bold text-ink">{service.title}</h3>
+              <p class="mt-2 flex-1 text-sm leading-relaxed text-ink-soft">{service.short}</p>
+              <button
+                type="button"
+                class="service-trigger mt-5 inline-flex items-center gap-2 text-sm font-semibold text-clay-700 transition-colors group-hover:text-clay-600"
+                data-service={i}
+                aria-haspopup="dialog"
+                aria-label={`${t.services.detailsCta}: ${service.title}`}
+              >
+                {/* Stretched hit-area makes the whole card open the modal */}
+                <span class="absolute inset-0" aria-hidden="true" />
+                {t.services.detailsCta}
+                <span class="transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">
+                  →
+                </span>
+              </button>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  {/* ---- One accessible <dialog> per service ---- */}
+  {
+    services.map((service, i) => (
+      <dialog class="service-modal" id={`service-${i}`} aria-labelledby={`service-${i}-title`}>
+        <div class="modal-card relative w-full overflow-y-auto rounded-3xl bg-paper">
+          <div class="relative aspect-[16/6] overflow-hidden" style={`background-image:${service.visual}`}>
+            <svg
+              class="pointer-events-none absolute -right-8 -top-12 h-56 w-56 text-white/15"
+              viewBox="0 0 200 200"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <circle cx="150" cy="60" r="34" />
+              <circle cx="150" cy="60" r="62" stroke-opacity="0.7" />
+              <circle cx="150" cy="60" r="92" stroke-opacity="0.45" />
+            </svg>
+            <span class="absolute bottom-4 left-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15 text-paper ring-1 ring-white/25 backdrop-blur-sm">
+              <Icon paths={service.icon} class="h-7 w-7" />
+            </span>
+          </div>
+
+          <button
+            type="button"
+            class="modal-close absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-ink/40 text-paper ring-1 ring-white/25 backdrop-blur-sm transition-colors hover:bg-ink/70"
+            data-close
+            aria-label={t.services.close}
+          >
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" aria-hidden="true">
+              <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </button>
+
+          <div class="p-6 sm:p-8">
+            <p class="text-xs font-semibold uppercase tracking-[0.16em] text-clay-700">
+              {t.services.eyebrow}
+            </p>
+            <h2
+              id={`service-${i}-title`}
+              class="font-display mt-2 text-2xl font-bold text-ink sm:text-3xl"
+            >
+              {service.title}
+            </h2>
+            <p class="mt-4 leading-relaxed text-ink-soft">{service.description}</p>
+
+            <ul role="list" class="mt-5 space-y-3">
+              {service.points.map((point) => (
+                <li class="flex items-start gap-3 text-sm text-ink">
+                  <span class="mt-0.5 flex h-5 w-5 flex-none items-center justify-center rounded-full bg-clay-50 text-clay-600 ring-1 ring-clay-100" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M5 13l4 4L19 7" />
+                    </svg>
+                  </span>
+                  {point}
+                </li>
+              ))}
+            </ul>
+
+            <div class="mt-6 rounded-2xl bg-paper-2 p-4">
+              <p class="text-xs font-semibold uppercase tracking-[0.14em] text-ink-faint">
+                {t.services.approachTitle}
+              </p>
+              <ul role="list" class="mt-2.5 space-y-1.5">
+                {t.services.approach.map((point) => (
+                  <li class="flex items-start gap-2 text-sm text-ink-soft">
+                    <span class="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-clay-400" aria-hidden="true" />
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="mt-7 flex flex-col gap-3 sm:flex-row">
+              <a
+                href={tel}
+                data-close
+                class="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-ink/15 px-6 py-3.5 text-base font-semibold text-ink transition-colors hover:border-clay-500 hover:text-clay-700"
+              >
+                <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 5 5L19 13l2 5v3a1 1 0 0 1-1 1A17 17 0 0 1 4 6a1 1 0 0 1 1-2Z" />
+                </svg>
+                {t.services.call}
+              </a>
+              <a
+                href={`${localize()}#contact`}
+                data-close
+                class="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-clay-600 px-6 py-3.5 text-base font-semibold text-paper shadow-sm transition-[background-color,transform] duration-200 hover:-translate-y-0.5 hover:bg-clay-700 active:translate-y-0"
+              >
+                {t.services.book}
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </dialog>
+    ))
+  }
+</section>
+
+<style>
+  /* Lock background scroll while a service modal is open. */
+  :global(body:has(dialog.service-modal[open])) {
+    overflow: hidden;
+  }
+
+  .service-modal {
+    margin: auto;
+    width: min(92vw, 34rem);
+    max-height: 90svh;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: inherit;
+  }
+  .service-modal .modal-card {
+    max-height: 90svh;
+    box-shadow: var(--shadow-lift);
+  }
+
+  /* Open/close animation (entry + exit) via discrete transitions. */
+  .service-modal {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+    transition:
+      opacity 280ms var(--ease-out-quart, ease),
+      transform 280ms var(--ease-out-quart, ease),
+      overlay 280ms allow-discrete,
+      display 280ms allow-discrete;
+  }
+  .service-modal[open] {
+    opacity: 1;
+    transform: none;
+  }
+  @starting-style {
+    .service-modal[open] {
+      opacity: 0;
+      transform: translateY(10px) scale(0.98);
+    }
+  }
+
+  .service-modal::backdrop {
+    background: rgba(16, 42, 71, 0);
+    backdrop-filter: blur(0px);
+    transition:
+      background-color 280ms ease,
+      backdrop-filter 280ms ease,
+      overlay 280ms allow-discrete,
+      display 280ms allow-discrete;
+  }
+  .service-modal[open]::backdrop {
+    background: rgba(16, 42, 71, 0.55);
+    backdrop-filter: blur(3px);
+  }
+  @starting-style {
+    .service-modal[open]::backdrop {
+      background: rgba(16, 42, 71, 0);
+      backdrop-filter: blur(0px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .service-modal,
+    .service-modal::backdrop {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // Service cards open an accessible native <dialog> (focus trap, Esc-to-close
+  // and inert background come for free). Re-bound on every Astro page load.
+  function initServices() {
+    const triggers = document.querySelectorAll<HTMLButtonElement>('.service-trigger');
+    triggers.forEach((btn) => {
+      if (btn.dataset.bound === '1') return;
+      btn.dataset.bound = '1';
+      btn.addEventListener('click', () => {
+        const id = `service-${btn.getAttribute('data-service')}`;
+        const dlg = document.getElementById(id) as HTMLDialogElement | null;
+        if (dlg && typeof dlg.showModal === 'function') dlg.showModal();
+      });
+    });
+
+    document.querySelectorAll<HTMLDialogElement>('dialog.service-modal').forEach((dlg) => {
+      if (dlg.dataset.bound === '1') return;
+      dlg.dataset.bound = '1';
+
+      // Click outside the card (on the backdrop) closes the dialog.
+      dlg.addEventListener('click', (event) => {
+        const card = dlg.querySelector<HTMLElement>('.modal-card');
+        if (!card) return;
+        const r = card.getBoundingClientRect();
+        const inside =
+          event.clientX >= r.left &&
+          event.clientX <= r.right &&
+          event.clientY >= r.top &&
+          event.clientY <= r.bottom;
+        if (!inside) dlg.close();
+      });
+
+      // Close button + the "call"/"book" actions dismiss the modal.
+      dlg.querySelectorAll<HTMLElement>('[data-close]').forEach((el) =>
+        el.addEventListener('click', () => dlg.close()),
+      );
+    });
+  }
+
+  document.addEventListener('astro:page-load', initServices);
+</script>
