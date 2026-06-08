@@ -175,6 +175,17 @@ const avatarBg = ['bg-clay-600', 'bg-ochre-500', 'bg-espresso-2', 'bg-clay-500',
     let index = 0;
     let timer: number | undefined;
 
+    // Keep the active thumbnail centered WITHIN its own scroll container only —
+    // never scroll the page (scrollIntoView would yank the whole page here).
+    const centerThumb = (thumb: HTMLElement) => {
+      const list = thumb.closest('ul');
+      if (!list || list.scrollWidth <= list.clientWidth) return;
+      const listRect = list.getBoundingClientRect();
+      const thumbRect = thumb.getBoundingClientRect();
+      const delta = thumbRect.left - listRect.left - (list.clientWidth - thumbRect.width) / 2;
+      list.scrollTo({ left: list.scrollLeft + delta, behavior: 'smooth' });
+    };
+
     const go = (i: number) => {
       index = (i + features.length) % features.length;
       features.forEach((f, fi) => f.classList.toggle('is-active', fi === index));
@@ -182,7 +193,7 @@ const avatarBg = ['bg-clay-600', 'bg-ochre-500', 'bg-espresso-2', 'bg-clay-500',
         const on = ti === index;
         thumb.classList.toggle('is-active', on);
         thumb.setAttribute('aria-selected', on ? 'true' : 'false');
-        if (on) thumb.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+        if (on) centerThumb(thumb);
       });
     };
 
