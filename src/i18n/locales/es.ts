@@ -150,6 +150,46 @@ export const es = {
         ],
       },
     ],
+    proceduresTitle: 'Tratamientos del dolor',
+    proceduresSubtitle: 'Procedimientos precisos y mínimamente invasivos para tratar el origen del dolor.',
+    procedures: [
+      {
+        title: 'Infiltraciones y bloqueos guiados por imagen',
+        short: 'Medicación al punto exacto del dolor.',
+        description:
+          'Llevamos la medicación exactamente al punto del dolor, con control ecográfico o radiológico para máxima precisión.',
+        points: [
+          'Precisión guiada por ecografía o rayos X',
+          'Procedimiento ambulatorio',
+          'Alivio dirigido al foco del dolor',
+        ],
+      },
+      {
+        title: 'Radiofrecuencia',
+        short: 'Alivio prolongado, sin cirugía.',
+        description:
+          'Desactivamos los nervios que transmiten el dolor para un alivio prolongado, sin cirugía ni ingreso.',
+        points: ['Sin cirugía ni ingreso', 'Alivio prolongado', 'Recuperación rápida'],
+      },
+      {
+        title: 'Neuromodulación',
+        short: 'Reeduca la señal del dolor crónico.',
+        description:
+          'Tecnología que reeduca la señal del dolor en casos crónicos y complejos, ajustándose a tu evolución.',
+        points: [
+          'Para dolor crónico y complejo',
+          'Reeduca la señal del dolor',
+          'Ajustable a tu evolución',
+        ],
+      },
+      {
+        title: 'Terapias regenerativas y fisioterapia',
+        short: 'Recupera el tejido y el movimiento.',
+        description:
+          'Recuperamos el tejido dañado y reentrenamos el movimiento para que el alivio sea duradero.',
+        points: ['Recupera el tejido dañado', 'Reentrena el movimiento', 'Resultados duraderos'],
+      },
+    ],
   },
   conditions: {
     eyebrow: 'Tu dolor',

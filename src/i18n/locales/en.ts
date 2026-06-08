@@ -147,6 +147,41 @@ export const en: typeof es = {
         ],
       },
     ],
+    proceduresTitle: 'Pain treatments',
+    proceduresSubtitle: 'Precise, minimally invasive procedures that treat the source of the pain.',
+    procedures: [
+      {
+        title: 'Image-guided injections & nerve blocks',
+        short: 'Medication to the exact pain point.',
+        description:
+          'We deliver medication to the exact source of the pain, under ultrasound or X-ray guidance for maximum precision.',
+        points: [
+          'Precision guided by ultrasound or X-ray',
+          'Outpatient procedure',
+          'Relief targeted at the pain source',
+        ],
+      },
+      {
+        title: 'Radiofrequency',
+        short: 'Long-lasting relief, no surgery.',
+        description:
+          'We quiet the nerves carrying the pain for lasting relief, with no surgery or hospital stay.',
+        points: ['No surgery or hospital stay', 'Long-lasting relief', 'Fast recovery'],
+      },
+      {
+        title: 'Neuromodulation',
+        short: 'Retrains the chronic pain signal.',
+        description:
+          'Technology that retrains the pain signal in chronic, complex cases, adjusting to your progress.',
+        points: ['For chronic, complex pain', 'Retrains the pain signal', 'Adjustable to your progress'],
+      },
+      {
+        title: 'Regenerative therapy & physiotherapy',
+        short: 'Restores tissue and movement.',
+        description: 'We restore damaged tissue and retrain movement so the relief lasts.',
+        points: ['Restores damaged tissue', 'Retrains movement', 'Lasting results'],
+      },
+    ],
   },
   conditions: {
     eyebrow: 'Your pain',
