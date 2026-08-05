@@ -380,6 +380,13 @@ export const es = {
     submitting: 'Enviando…',
     consent:
       'He leído y acepto la política de privacidad y autorizo el tratamiento de mis datos para que el equipo médico me contacte.',
+    // Consentimiento SMS, aparte del de tratamiento de datos. Partido para que
+    // la política de privacidad siga siendo un enlace real dentro de la etiqueta.
+    smsConsent:
+      'Al ingresar tu número de teléfono, aceptas recibir mensajes de texto de nuestra parte. Pueden aplicar tarifas de mensajería. Puedes responder STOP o UNSUBSCRIBE para darte de baja.',
+    smsConsentSee: 'Consulta nuestra',
+    smsConsentPolicy: 'Política de Privacidad',
+    smsConsentTail: 'para más detalles.',
     privacyNote: 'Tus datos solo se usan para gestionar tu solicitud. Nunca los compartimos con terceros.',
     success: '¡Gracias! Hemos recibido tu solicitud y te contactaremos pronto.',
     error: 'No pudimos enviar tu solicitud. Inténtalo de nuevo en unos minutos.',
@@ -388,6 +395,7 @@ export const es = {
       email: 'Introduce un correo electrónico válido.',
       phone: 'Introduce un teléfono válido (mínimo 7 dígitos).',
       consent: 'Debes aceptar el tratamiento de datos para continuar.',
+      smsConsent: 'Debes aceptar recibir mensajes de texto para continuar.',
     },
   },
   logistics: {

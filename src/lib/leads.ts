@@ -12,6 +12,12 @@ export interface Lead {
   phone: string;
   message?: string;
   locale: 'es' | 'en';
+  /**
+   * Exact SMS consent wording shown, in the language it was read. Reaching here
+   * means the box was ticked: the action rejects the submission otherwise. This
+   * is what backs the consent if it's ever queried.
+   */
+  smsConsentText?: string;
 }
 
 /** Send the lead notification email via Resend. No-op if Resend isn't configured. */
@@ -34,6 +40,7 @@ async function sendEmail(lead: Lead): Promise<'sent' | 'skipped'> {
         <li><strong>Email:</strong> ${escapeHtml(lead.email)}</li>
         <li><strong>Teléfono:</strong> ${escapeHtml(lead.phone)}</li>
         <li><strong>Idioma:</strong> ${lead.locale.toUpperCase()}</li>
+        <li><strong>Consentimiento SMS:</strong> otorgado${lead.smsConsentText ? ` — "${escapeHtml(lead.smsConsentText)}"` : ''}</li>
       </ul>
       ${lead.message ? `<p><strong>Mensaje:</strong><br>${escapeHtml(lead.message)}</p>` : ''}
     `,
@@ -55,6 +62,8 @@ async function postWebhook(lead: Lead): Promise<'sent' | 'skipped'> {
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
       ...lead,
+      smsConsent: true,
+      smsConsentAt: new Date().toISOString(),
       source: 'painmanagementer',
       submittedAt: new Date().toISOString(),
     }),

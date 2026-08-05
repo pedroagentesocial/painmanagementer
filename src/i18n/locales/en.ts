@@ -365,6 +365,13 @@ export const en: typeof es = {
     submitting: 'Sending…',
     consent:
       'I have read and accept the privacy policy and authorize the processing of my data so the medical team can contact me.',
+    // SMS opt-in, separate from the data-processing consent above. Split so the
+    // privacy policy stays a real link inside the label.
+    smsConsent:
+      'By Entering Your Phone Number, You Are Agreeing To Receive Text Messages From Us. Message Rates May Apply. You Can Reply STOP or UNSUBSCRIBE To Opt-Out.',
+    smsConsentSee: 'See our',
+    smsConsentPolicy: 'Privacy Policy',
+    smsConsentTail: 'for additional details.',
     privacyNote: 'Your data is only used to handle your request. We never share it with third parties.',
     success: 'Thank you! We received your request and will contact you soon.',
     error: 'We couldn’t send your request. Please try again in a few minutes.',
@@ -373,6 +380,7 @@ export const en: typeof es = {
       email: 'Please enter a valid email address.',
       phone: 'Please enter a valid phone number (at least 7 digits).',
       consent: 'You must accept the data processing terms to continue.',
+      smsConsent: 'You must agree to receive text messages to continue.',
     },
   },
   logistics: {

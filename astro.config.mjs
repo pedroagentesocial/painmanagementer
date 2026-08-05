@@ -35,6 +35,12 @@ export default defineConfig({
       LEAD_EMAIL_FROM: envField.string({ context: 'server', access: 'secret', optional: true }),
       LEAD_EMAIL_TO: envField.string({ context: 'server', access: 'secret', optional: true }),
       LEAD_WEBHOOK_URL: envField.string({ context: 'server', access: 'secret', optional: true }),
+
+      // Cloudflare Turnstile. Optional on purpose: without the secret the
+      // captcha is not enforced, so local dev keeps working. Once the secret
+      // exists (production), a missing or invalid token is rejected.
+      TURNSTILE_SECRET_KEY: envField.string({ context: 'server', access: 'secret', optional: true }),
+      PUBLIC_TURNSTILE_SITE_KEY: envField.string({ context: 'client', access: 'public', optional: true }),
     },
   },
 
