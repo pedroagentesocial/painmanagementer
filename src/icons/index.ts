@@ -54,6 +54,12 @@ export const socialIcons: Record<string, string> = {
     '<rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.6" cy="7.4" r="0.9" fill="currentColor" stroke="none"/>',
   facebook:
     '<rect x="4" y="4" width="16" height="16" rx="5"/><path d="M14.6 8.5h-1.1c-.8 0-1.3.5-1.3 1.3V11H15l-.4 2.6h-2.4V20"/>',
+  tiktok:
+    '<path d="M14.2 4v9.4a3.4 3.4 0 1 1-2.7-3.3"/><path d="M14.2 4c.3 2.1 1.9 3.6 4 3.8"/>',
+  youtube:
+    '<rect x="3" y="6" width="18" height="12" rx="4"/><path d="M10.8 9.6v4.8L15 12l-4.2-2.4Z"/>',
+  linkedin:
+    '<rect x="4" y="4" width="16" height="16" rx="4"/><path d="M8 10.6V16M8 7.7v.01M11.8 16v-3.1c0-1 .8-1.8 1.8-1.8s1.8.8 1.8 1.8V16"/>',
 };
 
 export const serviceIcons: string[] = [

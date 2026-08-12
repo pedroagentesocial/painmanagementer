@@ -5,28 +5,46 @@ import { socialIcons } from '../icons';
 
 interface Props {
   class?: string;
+  /** Shown on a network whose profile does not exist yet. */
+  pendingLabel?: string;
 }
-const { class: cls = '' } = Astro.props;
+const { class: cls = '', pendingLabel = 'Próximamente' } = Astro.props;
 ---
 
-<ul role="list" class:list={['flex gap-3', cls]}>
+<ul role="list" class:list={['flex flex-wrap gap-3', cls]}>
   {
-    social.map((s) => (
-      <li>
-        <a
-          href={s.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={s.name}
-          class="social-btn"
-          style={`--social-color:${s.color}`}
-        >
-          <span class="social-icon">
-            <Icon paths={socialIcons[s.icon]} class="h-5 w-5" />
+    social.map((s) =>
+      s.href ? (
+        <li>
+          <a
+            href={s.href}
+            target="_blank"
+            rel="noopener noreferrer me"
+            aria-label={s.name}
+            class="social-btn"
+            style={`--social-color:${s.color}`}
+          >
+            <span class="social-icon">
+              <Icon paths={socialIcons[s.icon]} class="h-5 w-5" />
+            </span>
+          </a>
+        </li>
+      ) : (
+        /* Perfil aún no creado: se muestra (las cinco son de la marca) pero no
+           enlaza, para no publicar un enlace muerto. */
+        <li>
+          <span
+            aria-label={`${s.name} — ${pendingLabel}`}
+            title={`${s.name} — ${pendingLabel}`}
+            class="social-btn social-btn--pending"
+          >
+            <span class="social-icon">
+              <Icon paths={socialIcons[s.icon]} class="h-5 w-5" />
+            </span>
           </span>
-        </a>
-      </li>
-    ))
+        </li>
+      ),
+    )
   }
 </ul>
 
@@ -55,6 +73,13 @@ const { class: cls = '' } = Astro.props;
   }
   .social-btn:active {
     transform: scale(0.9);
+  }
+  /* Pending profile: same shape, visibly inert. */
+  .social-btn--pending {
+    cursor: default;
+    color: rgba(255, 255, 255, 0.45);
+    background-color: rgba(255, 255, 255, 0.05);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
   }
   .social-icon {
     display: flex;

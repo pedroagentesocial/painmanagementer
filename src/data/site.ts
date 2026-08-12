@@ -27,8 +27,16 @@ export const contact = {
 /** WhatsApp + social profiles — PLACEHOLDER. Replace with the clinic's real handles. */
 export const whatsappNumber = '34900000000';
 
+/**
+ * Las CINCO redes de la marca, siempre visibles, más WhatsApp (que es canal de
+ * contacto, no red). Un href vacío se muestra igual pero no enlaza: nunca
+ * publicamos un perfil que no existe. Al poner la url, enlaza.
+ */
 export const social: { name: string; icon: string; href: string; color: string }[] = [
-  { name: 'WhatsApp', icon: 'whatsapp', href: `https://wa.me/${whatsappNumber}`, color: '#25D366' },
-  { name: 'Instagram', icon: 'instagram', href: 'https://instagram.com/painmanagementer', color: '#E1306C' },
   { name: 'Facebook', icon: 'facebook', href: 'https://facebook.com/painmanagementer', color: '#1877F2' },
+  { name: 'Instagram', icon: 'instagram', href: 'https://instagram.com/painmanagementer', color: '#E1306C' },
+  { name: 'TikTok', icon: 'tiktok', href: '', color: '#010101' },
+  { name: 'YouTube', icon: 'youtube', href: '', color: '#FF0000' },
+  { name: 'LinkedIn', icon: 'linkedin', href: '', color: '#0A66C2' },
+  { name: 'WhatsApp', icon: 'whatsapp', href: `https://wa.me/${whatsappNumber}`, color: '#25D366' },
 ];
