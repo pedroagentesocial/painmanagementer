@@ -17,9 +17,9 @@ export const insurers: string[] = [
   'Cigna',
 ];
 
-/** Contact / location — PLACEHOLDER. Replace with the clinic's real details. */
+/** Contact / location. Phone is real; email and address are still PLACEHOLDER. */
 export const contact = {
-  phone: '+34 900 000 000',
+  phone: '801-849-3103',
   email: 'hola@painmanagementer.com',
   addressLines: ['Calle de Ejemplo 123', '28001 Madrid'],
 };
@@ -33,10 +33,10 @@ export const whatsappNumber = '34900000000';
  * publicamos un perfil que no existe. Al poner la url, enlaza.
  */
 export const social: { name: string; icon: string; href: string; color: string }[] = [
-  { name: 'Facebook', icon: 'facebook', href: 'https://facebook.com/painmanagementer', color: '#1877F2' },
-  { name: 'Instagram', icon: 'instagram', href: 'https://instagram.com/painmanagementer', color: '#E1306C' },
+  { name: 'Facebook', icon: 'facebook', href: 'https://www.facebook.com/painmanagementer/', color: '#1877F2' },
+  { name: 'Instagram', icon: 'instagram', href: 'https://www.instagram.com/pain_management_er/', color: '#E1306C' },
   { name: 'TikTok', icon: 'tiktok', href: '', color: '#010101' },
-  { name: 'YouTube', icon: 'youtube', href: '', color: '#FF0000' },
+  { name: 'YouTube', icon: 'youtube', href: 'https://www.youtube.com/@PainManagementER', color: '#FF0000' },
   { name: 'LinkedIn', icon: 'linkedin', href: '', color: '#0A66C2' },
   { name: 'WhatsApp', icon: 'whatsapp', href: `https://wa.me/${whatsappNumber}`, color: '#25D366' },
 ];
