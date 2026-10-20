@@ -4,7 +4,10 @@ import {
   LEAD_EMAIL_FROM,
   LEAD_EMAIL_TO,
   LEAD_WEBHOOK_URL,
+  GHL_WEBHOOK_URL,
 } from 'astro:env/server';
+
+const WEBHOOK_URL = LEAD_WEBHOOK_URL || GHL_WEBHOOK_URL;
 
 export interface Lead {
   name: string;
@@ -52,12 +55,12 @@ async function sendEmail(lead: Lead): Promise<'sent' | 'skipped'> {
 
 /** POST the lead to an external webhook (CRM, Make/Zapier...). No-op if not configured. */
 async function postWebhook(lead: Lead): Promise<'sent' | 'skipped'> {
-  if (!LEAD_WEBHOOK_URL) {
-    console.warn('[lead] LEAD_WEBHOOK_URL not configured — skipping webhook.');
+  if (!WEBHOOK_URL) {
+    console.warn('[lead] LEAD_WEBHOOK_URL / GHL_WEBHOOK_URL not configured — skipping webhook.');
     return 'skipped';
   }
 
-  const res = await fetch(LEAD_WEBHOOK_URL, {
+  const res = await fetch(WEBHOOK_URL, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({

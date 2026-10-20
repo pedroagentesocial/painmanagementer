@@ -35,6 +35,9 @@ export default defineConfig({
       LEAD_EMAIL_FROM: envField.string({ context: 'server', access: 'secret', optional: true }),
       LEAD_EMAIL_TO: envField.string({ context: 'server', access: 'secret', optional: true }),
       LEAD_WEBHOOK_URL: envField.string({ context: 'server', access: 'secret', optional: true }),
+      // Name the variable was created with in Vercel. Read as a fallback so the
+      // GoHighLevel webhook already configured there actually receives leads.
+      GHL_WEBHOOK_URL: envField.string({ context: 'server', access: 'secret', optional: true }),
 
       // Cloudflare Turnstile. Optional on purpose: without the secret the
       // captcha is not enforced, so local dev keeps working. Once the secret
