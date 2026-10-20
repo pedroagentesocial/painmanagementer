@@ -28,7 +28,9 @@ export const server = {
       // Locale travels with the submission so notifications can be localized.
       locale: z.enum(['es', 'en']).default('es'),
       // Honeypot: real users leave it empty; bots tend to fill every field.
-      company: z.string().max(0).optional(),
+      // No max(0) here: a validation error would tell the bot which field gave
+      // it away. The handler drops filled submissions silently instead.
+      company: z.string().max(200).optional(),
       // Turnstile injects this field into the form automatically.
       'cf-turnstile-response': z.string().optional(),
     }),

@@ -17,10 +17,10 @@ export const insurers: string[] = [
   'Cigna',
 ];
 
-/** Contact / location. Phone is real; email and address are still PLACEHOLDER. */
+/** Contact / location. Phone and email are real; address is still PLACEHOLDER. */
 export const contact = {
   phone: '801-849-3103',
-  email: 'hola@painmanagementer.com',
+  email: 'support@painmanagementer.com',
   addressLines: ['Calle de Ejemplo 123', '28001 Madrid'],
 };
 

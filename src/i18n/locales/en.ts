@@ -450,7 +450,7 @@ export const en: typeof es = {
     sections: [
       {
         heading: 'Data controller',
-        body: 'PainManagement ER is responsible for the personal data you provide through this site. You can reach us at hola@painmanagementer.com.',
+        body: 'PainManagement ER is responsible for the personal data you provide through this site. You can reach us at support@painmanagementer.com.',
       },
       {
         heading: 'What data we collect',
@@ -470,7 +470,7 @@ export const en: typeof es = {
       },
       {
         heading: 'Your rights',
-        body: 'You can access, rectify or erase your data, and object to or restrict its processing, by writing to hola@painmanagementer.com. You may also lodge a complaint with the competent data protection authority.',
+        body: 'You can access, rectify or erase your data, and object to or restrict its processing, by writing to support@painmanagementer.com. You may also lodge a complaint with the competent data protection authority.',
       },
     ],
   },

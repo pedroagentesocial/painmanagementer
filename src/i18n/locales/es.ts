@@ -465,7 +465,7 @@ export const es = {
     sections: [
       {
         heading: 'Responsable del tratamiento',
-        body: 'PainManagement ER es responsable de los datos personales que nos facilitas a través de este sitio. Puedes contactarnos en hola@painmanagementer.com.',
+        body: 'PainManagement ER es responsable de los datos personales que nos facilitas a través de este sitio. Puedes contactarnos en support@painmanagementer.com.',
       },
       {
         heading: 'Qué datos recogemos',
@@ -485,7 +485,7 @@ export const es = {
       },
       {
         heading: 'Tus derechos',
-        body: 'Puedes acceder, rectificar o suprimir tus datos, así como oponerte o limitar su tratamiento, escribiéndonos a hola@painmanagementer.com. También puedes reclamar ante la autoridad de protección de datos competente.',
+        body: 'Puedes acceder, rectificar o suprimir tus datos, así como oponerte o limitar su tratamiento, escribiéndonos a support@painmanagementer.com. También puedes reclamar ante la autoridad de protección de datos competente.',
       },
     ],
   },
