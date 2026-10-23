@@ -408,8 +408,8 @@ export const es = {
     locationHeading: 'Dónde estamos',
     hoursHeading: 'Horario de atención',
     hours: [
-      { days: 'Lunes a viernes', time: '9:00 – 20:00' },
-      { days: 'Sábado', time: '9:00 – 14:00' },
+      { days: 'Lunes a viernes', time: '9:00 am – 8:00 pm' },
+      { days: 'Sábado', time: '9:00 am – 6:00 pm' },
       { days: 'Domingo', time: 'Cerrado' },
     ],
     followHeading: 'Síguenos',

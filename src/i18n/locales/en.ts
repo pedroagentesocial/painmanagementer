@@ -393,8 +393,8 @@ export const en: typeof es = {
     locationHeading: 'Where to find us',
     hoursHeading: 'Opening hours',
     hours: [
-      { days: 'Monday to Friday', time: '9:00 – 20:00' },
-      { days: 'Saturday', time: '9:00 – 14:00' },
+      { days: 'Monday to Friday', time: '9:00 am – 8:00 pm' },
+      { days: 'Saturday', time: '9:00 am – 6:00 pm' },
       { days: 'Sunday', time: 'Closed' },
     ],
     followHeading: 'Follow us',
