@@ -19,6 +19,7 @@ export const es = {
     why: 'Por qué nosotros',
     how: 'Cómo funciona',
     faq: 'Preguntas',
+    blog: 'Blog',
     testimonials: 'Testimonios',
     contact: 'Contacto',
     book: 'Agendar valoración',
@@ -488,6 +489,25 @@ export const es = {
         body: 'Puedes acceder, rectificar o suprimir tus datos, así como oponerte o limitar su tratamiento, escribiéndonos a support@painmanagementer.com. También puedes reclamar ante la autoridad de protección de datos competente.',
       },
     ],
+  },
+  blog: {
+    eyebrow: 'Blog',
+    title: 'Información clara sobre el dolor',
+    subtitle:
+      'Artículos basados en datos oficiales y guías clínicas actuales, con cada cifra enlazada a su fuente.',
+    readMore: 'Leer artículo',
+    minRead: 'min de lectura',
+    published: 'Publicado',
+    updated: 'Actualizado',
+    backToBlog: 'Volver al blog',
+    sourcesTitle: 'Fuentes',
+    disclaimerTitle: 'Aviso médico',
+    disclaimer:
+      'Este artículo es informativo y no sustituye la valoración de un profesional de la salud. Si tienes dolor intenso, súbito o acompañado de fiebre, debilidad, pérdida de control de esfínteres o pérdida de peso sin explicación, busca atención médica de inmediato.',
+    ctaTitle: '¿Quieres que revisemos tu caso?',
+    ctaText: 'Nuestro equipo valora el origen de tu dolor y te propone un plan a tu medida.',
+    ctaButton: 'Agendar valoración',
+    empty: 'Pronto publicaremos nuevos artículos.',
   },
   footer: {
     tagline: 'Clínica especializada en el manejo del dolor crónico.',

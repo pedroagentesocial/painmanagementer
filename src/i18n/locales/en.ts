@@ -16,6 +16,7 @@ export const en: typeof es = {
     why: 'Why us',
     how: 'How it works',
     faq: 'FAQ',
+    blog: 'Blog',
     testimonials: 'Testimonials',
     contact: 'Contact',
     book: 'Book an assessment',
@@ -473,6 +474,25 @@ export const en: typeof es = {
         body: 'You can access, rectify or erase your data, and object to or restrict its processing, by writing to support@painmanagementer.com. You may also lodge a complaint with the competent data protection authority.',
       },
     ],
+  },
+  blog: {
+    eyebrow: 'Blog',
+    title: 'Clear information about pain',
+    subtitle:
+      'Articles built on official data and current clinical guidelines, with every figure linked to its source.',
+    readMore: 'Read article',
+    minRead: 'min read',
+    published: 'Published',
+    updated: 'Updated',
+    backToBlog: 'Back to blog',
+    sourcesTitle: 'Sources',
+    disclaimerTitle: 'Medical notice',
+    disclaimer:
+      'This article is for information only and does not replace an assessment by a health professional. If your pain is severe, sudden, or comes with fever, weakness, loss of bladder or bowel control, or unexplained weight loss, seek medical care right away.',
+    ctaTitle: 'Want us to look at your case?',
+    ctaText: 'Our team assesses where your pain comes from and proposes a plan built for you.',
+    ctaButton: 'Book an assessment',
+    empty: 'New articles are coming soon.',
   },
   footer: {
     tagline: 'A clinic specialized in chronic pain management.',
