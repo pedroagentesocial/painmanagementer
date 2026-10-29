@@ -13,6 +13,10 @@ import { contact } from '../data/site';
 interface Props {
   title?: string;
   description?: string;
+  /** Open Graph type: blog posts pass 'article'. */
+  ogType?: 'website' | 'article';
+  /** Extra JSON-LD object for this page (e.g. a BlogPosting). */
+  jsonLd?: Record<string, unknown>;
 }
 
 const lang = getLangFromUrl(Astro.url);
@@ -20,6 +24,8 @@ const t = useTranslations(lang);
 const {
   title = `${t.site.name} — ${t.site.tagline}`,
   description = t.hero.slides[0].subtitle,
+  ogType = 'website',
+  jsonLd,
 } = Astro.props;
 
 // SEO: canonical + hreflang alternates + social image (absolute URLs).
@@ -85,7 +91,7 @@ const clinicLd = {
     {/* Open Graph / social */}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content={t.site.name} />
     <meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_US'} />
@@ -95,6 +101,7 @@ const clinicLd = {
 
     {/* Structured data: local clinic */}
     <script type="application/ld+json" set:html={JSON.stringify(clinicLd)} is:inline />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />}
 
     {/* Smooth crossfade between locales (and any internal nav). */}
     <ClientRouter />

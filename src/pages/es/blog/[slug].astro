@@ -1,0 +1,33 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import BlogPost from '../../../components/blog/BlogPost.astro';
+import { getPosts, postSlug, type BlogPost as Post } from '../../../lib/blog';
+import { useTranslations } from '../../../i18n/utils';
+
+export async function getStaticPaths() {
+  const posts = await getPosts('es');
+  return posts.map((post) => ({ params: { slug: postSlug(post) }, props: { post } }));
+}
+
+const { post } = Astro.props as { post: Post };
+const t = useTranslations('es');
+const site = Astro.site ?? new URL('https://www.painmanagementer.com');
+
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.description,
+  inLanguage: 'es',
+  datePublished: post.data.pubDate.toISOString(),
+  dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
+  author: { '@type': 'Organization', name: post.data.author },
+  publisher: { '@type': 'Organization', name: t.site.name },
+  mainEntityOfPage: new URL(Astro.url.pathname, site).href,
+  citation: post.data.sources.map((s) => s.url),
+};
+---
+
+<Layout title={`${post.data.title} — ${t.site.name}`} description={post.data.description} ogType="article" jsonLd={articleLd}>
+  <BlogPost post={post} />
+</Layout>

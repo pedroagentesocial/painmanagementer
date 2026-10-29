@@ -11,7 +11,11 @@ const navItems = [
   { id: 'services', href: `${localize()}#services`, label: t.nav.services },
   { id: 'how', href: `${localize()}#how`, label: t.nav.how },
   { id: 'faq', href: `${localize()}#faq`, label: t.nav.faq },
+  { id: 'blog', href: localize('blog'), label: t.nav.blog },
 ];
+// The blog is a page, not a home section, so the scroll-spy never marks it:
+// highlight it from the URL instead.
+const onBlog = Astro.url.pathname.startsWith(localize('blog'));
 ---
 
 <header
@@ -30,7 +34,12 @@ const navItems = [
         {
           navItems.map((item) => (
             <li>
-              <a href={item.href} data-nav={item.id} class="nav-link link-underline transition-colors">
+              <a
+                href={item.href}
+                data-nav={item.id}
+                class:list={['nav-link link-underline transition-colors', { 'is-active': item.id === 'blog' && onBlog }]}
+                aria-current={item.id === 'blog' && onBlog ? 'page' : undefined}
+              >
                 {item.label}
               </a>
             </li>
