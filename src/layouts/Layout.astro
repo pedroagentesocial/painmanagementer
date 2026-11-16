@@ -9,6 +9,8 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { getLangFromUrl, useTranslations, getLocalizedPathname } from '../i18n/utils';
 import { contact } from '../data/site';
+import { tituloSeo, descripcionSeo } from '../lib/seo-text';
+const MARCA = 'PainManagement ER';
 
 interface Props {
   title?: string;
@@ -79,8 +81,8 @@ const clinicLd = {
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-    <meta name="description" content={description} />
+    <title>{tituloSeo(title, MARCA)}</title>
+    <meta name="description" content={descripcionSeo(description)} />
 
     {/* Canonical + bilingual hreflang alternates */}
     <link rel="canonical" href={canonical} />
