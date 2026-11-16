@@ -14,7 +14,7 @@ function initials(name: string): string {
 }
 
 const items = t.testimonials.items;
-const avatarBg = ['bg-clay-600', 'bg-ochre-500', 'bg-espresso-2', 'bg-clay-500', 'bg-ochre-700', 'bg-clay-700'];
+const avatarBg = ['bg-clay-600', 'bg-ochre-700', 'bg-espresso-2', 'bg-clay-700', 'bg-ochre-700', 'bg-clay-600'];
 ---
 
 <section id="testimonials" class="scroll-mt-24 bg-paper-2 py-20 lg:py-28">
@@ -77,15 +77,14 @@ const avatarBg = ['bg-clay-600', 'bg-ochre-500', 'bg-espresso-2', 'bg-clay-500',
       </div>
 
       {/* Thumbnails */}
-      <ul role="tablist" aria-label={t.testimonials.eyebrow} class="mt-6 flex gap-3 overflow-x-auto pb-2 sm:gap-4">
+      <div role="tablist" aria-label={t.testimonials.eyebrow} class="tm-thumbs mt-6 flex gap-3 overflow-x-auto pb-2 sm:gap-4">
         {
           items.map((it, i) => (
-            <li class="flex-none">
               <button
                 type="button"
                 role="tab"
                 aria-selected={i === 0 ? 'true' : 'false'}
-                class:list={['tm-thumb', { 'is-active': i === 0 }]}
+                class:list={['tm-thumb flex-none', { 'is-active': i === 0 }]}
                 data-thumb={i}
                 aria-label={`${it.author} — ${it.role}`}
               >
@@ -103,10 +102,9 @@ const avatarBg = ['bg-clay-600', 'bg-ochre-500', 'bg-espresso-2', 'bg-clay-500',
                   <span class="block truncate text-xs text-ink-faint">{it.role}</span>
                 </span>
               </button>
-            </li>
           ))
         }
-      </ul>
+      </div>
     </div>
   </div>
 </section>
@@ -178,7 +176,7 @@ const avatarBg = ['bg-clay-600', 'bg-ochre-500', 'bg-espresso-2', 'bg-clay-500',
     // Keep the active thumbnail centered WITHIN its own scroll container only —
     // never scroll the page (scrollIntoView would yank the whole page here).
     const centerThumb = (thumb: HTMLElement) => {
-      const list = thumb.closest('ul');
+      const list = thumb.closest<HTMLElement>('.tm-thumbs');
       if (!list || list.scrollWidth <= list.clientWidth) return;
       const listRect = list.getBoundingClientRect();
       const thumbRect = thumb.getBoundingClientRect();

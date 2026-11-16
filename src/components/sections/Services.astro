@@ -26,18 +26,18 @@ const visualFor = (i: number) => visuals[i % visuals.length];
 // Two groups in one section: service areas + folded-in pain treatments.
 // A single continuous index keeps each card's modal id unique.
 const areaImages = [
-  '/images/service-imaging.jpg',
-  '/images/service-general.jpg',
-  '/images/service-physio.jpg',
-  '/images/service-mental.jpg',
-  '/images/service-accident.jpg',
-  '/images/service-targeted.jpg',
+  '/images/service-imaging.webp',
+  '/images/service-general.webp',
+  '/images/service-physio.webp',
+  '/images/service-mental.webp',
+  '/images/service-accident.webp',
+  '/images/service-targeted.webp',
 ];
 const procImages = [
-  '/images/service-injections.jpg',
-  '/images/service-radiofrequency.jpg',
-  '/images/service-neuromodulation.jpg',
-  '/images/service-regenerative.jpg',
+  '/images/service-injections.webp',
+  '/images/service-radiofrequency.webp',
+  '/images/service-neuromodulation.webp',
+  '/images/service-regenerative.webp',
 ];
 const areas = t.services.items.map((item, i) => ({ ...item, icon: servicesIcons[i] ?? servicesIcons[0], image: areaImages[i] }));
 const procs = t.services.procedures.map((item, i) => ({ ...item, icon: serviceIcons[i] ?? serviceIcons[0], image: procImages[i] }));
