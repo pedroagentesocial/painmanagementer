@@ -34,6 +34,11 @@ export function useTranslatedPath(lang: Lang) {
  * Used by the language selector so switching keeps you on the same page.
  * e.g. ('/es/treatments', 'en') → '/en/treatments'
  */
+const SLUG_BY_LANG: Record<string, Record<Lang, string>> = {
+  privacidad: { es: 'privacidad', en: 'privacy' },
+  privacy: { es: 'privacidad', en: 'privacy' },
+};
+
 export function getLocalizedPathname(pathname: string, targetLang: Lang): string {
   const segments = pathname.split('/').filter(Boolean);
   if (segments.length > 0 && segments[0] in languages) {
@@ -41,6 +46,10 @@ export function getLocalizedPathname(pathname: string, targetLang: Lang): string
   } else {
     segments.unshift(targetLang);
   }
+  // Páginas cuyo nombre cambia entre idiomas. Sin esto, /es/privacidad/ mandaba
+  // a /en/privacidad/ (404) en el selector de idioma y en el hreflang.
+  const slug = segments[1];
+  if (slug && SLUG_BY_LANG[slug]) segments[1] = SLUG_BY_LANG[slug][targetLang];
   const trailingSlash = pathname.endsWith('/') || segments.length === 1 ? '/' : '';
   return '/' + segments.join('/') + trailingSlash;
 }
