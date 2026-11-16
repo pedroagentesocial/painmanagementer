@@ -27,9 +27,8 @@ const slides = t.hero.slides.map((copy, i) => ({ ...copy, src: videos[i] ?? vide
             muted
             loop
             playsinline
-            poster={`/images/hero${i + 1}.jpg`}
-            autoplay={i === 0}
-            preload={i === 0 ? 'auto' : 'none'}
+            poster={`/images/hero${i + 1}.webp`}
+            preload="none"
           >
             <source src={slide.src} type="video/mp4" />
           </video>
@@ -146,7 +145,7 @@ const slides = t.hero.slides.map((copy, i) => ({ ...copy, src: videos[i] ?? vide
   </button>
 
   {/* ---- Dots ---- */}
-  <div class="hero-dots absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 items-center gap-3">
+  <div class="hero-dots absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1">
     {
       slides.map((_, i) => (
         <button
@@ -231,7 +230,18 @@ const slides = t.hero.slides.map((copy, i) => ({ ...copy, src: videos[i] ?? vide
     transform: translateY(-50%) scale(0.94);
   }
 
+  /* El botón mide 24×24 (zona táctil mínima); el punto visible es el ::before. */
   .hero-dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 9999px;
+  }
+  .hero-dot::before {
+    content: "";
+    display: block;
     height: 0.5rem;
     width: 0.5rem;
     border-radius: 9999px;
@@ -241,10 +251,10 @@ const slides = t.hero.slides.map((copy, i) => ({ ...copy, src: videos[i] ?? vide
       width var(--dur, 200ms) ease,
       background-color var(--dur, 200ms) ease;
   }
-  .hero-dot:hover {
+  .hero-dot:hover::before {
     background: rgba(255, 255, 255, 0.8);
   }
-  .hero-dot.is-active {
+  .hero-dot.is-active::before {
     width: 1.6rem;
     background: var(--color-clay-400);
     border-color: transparent;
@@ -290,7 +300,11 @@ const slides = t.hero.slides.map((copy, i) => ({ ...copy, src: videos[i] ?? vide
     let index = 0;
     let timer: number | undefined;
 
+    // Los videos esperan a que la página termine de cargar: así no le quitan
+    // ancho de banda al texto y al poster del primer slide (LCP en móvil).
+    let videosReady = document.readyState === 'complete';
     const playActive = (i: number) => {
+      if (!videosReady) return;
       videos.forEach((v, vi) => {
         if (vi === i) {
           const p = v.play();
@@ -347,6 +361,9 @@ const slides = t.hero.slides.map((copy, i) => ({ ...copy, src: videos[i] ?? vide
 
     go(0);
     start();
+    if (!videosReady) {
+      window.addEventListener('load', () => { videosReady = true; playActive(index); }, { once: true });
+    }
   }
 
   document.addEventListener('astro:page-load', initHeroSlider);

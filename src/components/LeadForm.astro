@@ -157,7 +157,25 @@ const errorText = 'mt-1.5 text-sm font-medium text-danger';
   {PUBLIC_TURNSTILE_SITE_KEY && (
     <>
       <div class="cf-turnstile" data-sitekey={PUBLIC_TURNSTILE_SITE_KEY} data-language={lang}></div>
-      <script is:inline async defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
+      <script is:inline>
+        (() => {
+          const box = document.currentScript && document.currentScript.previousElementSibling;
+          const form = box && box.closest('form');
+          let done = false;
+          const load = () => {
+            if (done) return; done = true;
+            if (document.querySelector('script[src*="turnstile/v0/api.js"]')) return;
+            const s = document.createElement('script');
+            s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+            s.async = true; s.defer = true;
+            document.head.appendChild(s);
+          };
+          if (!form || !('IntersectionObserver' in window)) return load();
+          form.addEventListener('focusin', load, { once: true });
+          const io = new IntersectionObserver((e) => { if (e.some((x) => x.isIntersecting)) { io.disconnect(); load(); } }, { rootMargin: '600px 0px' });
+          io.observe(form);
+        })();
+      </script>
     </>
   )}
 
