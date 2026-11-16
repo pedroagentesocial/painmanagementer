@@ -8,7 +8,9 @@ const localize = useTranslatedPath(lang);
 // Each slide pairs a background video with its own copy. Drop the videos into
 // public/videos/ with these exact names and the slider works instantly.
 const videos = ['/videos/hero1.mp4', '/videos/hero2.mp4', '/videos/hero3.mp4'];
-const slides = t.hero.slides.map((copy, i) => ({ ...copy, src: videos[i] ?? videos[0] }));
+// Solo la primera diapositiva lleva <h1>; las demás usan <p> con el mismo estilo
+// para que la portada tenga un único H1.
+const slides = t.hero.slides.map((copy, i) => ({ ...copy, src: videos[i] ?? videos[0], Heading: i === 0 ? 'h1' : 'p' }));
 ---
 
 <section
@@ -52,7 +54,7 @@ const slides = t.hero.slides.map((copy, i) => ({ ...copy, src: videos[i] ?? vide
        clipping it. min-h-svh keeps it full-height when the copy is shorter. */}
   <div id="hero-content" class="relative grid min-h-svh content-center">
     {
-      slides.map((slide, i) => (
+      slides.map(({ Heading, ...slide }, i) => (
         <div
           class:list={['hero-copy col-start-1 row-start-1 w-full', { 'is-active': i === 0 }]}
           data-copy={i}
@@ -68,7 +70,7 @@ const slides = t.hero.slides.map((copy, i) => ({ ...copy, src: videos[i] ?? vide
                 {slide.eyebrow}
               </p>
 
-              <h1
+              <Heading
                 class="font-display mt-5 text-[clamp(2.25rem,7vw,5.5rem)] font-extrabold text-paper sm:mt-6"
                 style="line-height:0.95; text-shadow:0 2px 24px rgba(16,42,71,0.35)"
               >
@@ -91,7 +93,7 @@ const slides = t.hero.slides.map((copy, i) => ({ ...copy, src: videos[i] ?? vide
                     />
                   </svg>
                 </span>
-              </h1>
+              </Heading>
 
               <p class="mt-5 max-w-xl text-base leading-relaxed text-paper/85 sm:mt-7 sm:text-xl">
                 {slide.subtitle}
