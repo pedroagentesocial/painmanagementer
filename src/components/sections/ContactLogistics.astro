@@ -15,7 +15,8 @@ const wa = `https://wa.me/${whatsappNumber}`;
 
 const methods = [
   { icon: contactIcons.phone, label: t.logistics.phoneLabel, value: contact.phone, href: tel },
-  { icon: socialIcons.whatsapp, label: t.logistics.whatsappLabel, value: t.logistics.whatsappCta, href: wa, external: true },
+  // Sin número de WhatsApp confirmado no se ofrece ese canal.
+  ...(whatsappNumber ? [{ icon: socialIcons.whatsapp, label: t.logistics.whatsappLabel, value: t.logistics.whatsappCta, href: wa, external: true }] : []),
   { icon: contactIcons.mail, label: t.logistics.emailLabel, value: contact.email, href: mailto },
 ];
 ---
