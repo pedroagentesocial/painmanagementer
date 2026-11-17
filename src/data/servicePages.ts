@@ -82,7 +82,7 @@ export const SERVICE_PAGES = {
     copy: {
       en: {
         ...comunes.en,
-        title: 'Minimally Invasive Pain Treatments in Sandy, Utah',
+        title: 'Pain Management Treatments in Sandy, Utah',
         description:
           'Image-guided injections and nerve blocks, radiofrequency, neuromodulation and regenerative therapy for chronic pain in Sandy, Utah. We favor the least invasive option.',
         eyebrow: 'How we treat',
