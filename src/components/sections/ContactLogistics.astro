@@ -125,7 +125,8 @@ const methods = [
         </div>
       </div>
 
-      {/* Insurers */}
+      {/* Insurers — solo si hay una lista real (ver src/data/site.ts) */}
+      {insurers.length > 0 && (
       <div class="reveal mt-7" style="--reveal-delay:680ms">
         <h3 class="text-sm font-semibold uppercase tracking-wide text-ink-faint">
           {t.logistics.insuranceHeading}
@@ -141,6 +142,7 @@ const methods = [
         </ul>
         <p class="mt-3 text-sm text-ink-faint">{t.logistics.insuranceNote}</p>
       </div>
+      )}
     </aside>
   </div>
 </section>

@@ -7,15 +7,11 @@
 
 // The hero is now a bespoke graphic (no photography) — see HeroGraphic.astro.
 
-/** Insurance partners — PLACEHOLDER names. Replace with the clinic's real list. */
-export const insurers: string[] = [
-  'Sanitas',
-  'Adeslas',
-  'DKV',
-  'Asisa',
-  'Mapfre',
-  'Cigna',
-];
+/** Aseguradoras con las que trabaja la clínica. Vacío hasta tener la lista real:
+ * la de la plantilla (Sanitas, Adeslas, DKV, Asisa, Mapfre, Cigna) eran nombres de
+ * relleno, casi todos de aseguradoras de España, y estaban en vivo. Con la lista
+ * vacía el bloque no se muestra. */
+export const insurers: string[] = [];
 
 /** Contact / location. Phone and email are real; address is real. */
 export const contact = {

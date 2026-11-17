@@ -2,6 +2,7 @@
 import { getLangFromUrl, useTranslations, useTranslatedPath } from '../../i18n/utils';
 import Icon from '../visual/Icon.astro';
 import { conditionIcons } from '../../icons';
+import { SERVICE_PAGES } from '../../data/servicePages';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -62,10 +63,17 @@ const localize = useTranslatedPath(lang);
               <div class="flip-info">
                 <h3 class="flip-info-title font-display">{item.title}</h3>
                 <p class="flip-info-desc">{item.description}</p>
-                <a href={`${localize()}#contact`} class="flip-info-cta">
-                  {t.conditions.notListedCta}
-                  <span aria-hidden="true">→</span>
-                </a>
+                {i === SERVICE_PAGES.espalda.condition ? (
+                  <a href={`${localize(SERVICE_PAGES.espalda.slug[lang])}/`} class="flip-info-cta">
+                    {SERVICE_PAGES.espalda.copy[lang].eyebrow}
+                    <span aria-hidden="true">→</span>
+                  </a>
+                ) : (
+                  <a href={`${localize()}#contact`} class="flip-info-cta">
+                    {t.conditions.notListedCta}
+                    <span aria-hidden="true">→</span>
+                  </a>
+                )}
               </div>
             </div>
           </li>

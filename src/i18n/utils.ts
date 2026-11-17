@@ -37,6 +37,13 @@ export function useTranslatedPath(lang: Lang) {
 const SLUG_BY_LANG: Record<string, Record<Lang, string>> = {
   privacidad: { es: 'privacidad', en: 'privacy' },
   privacy: { es: 'privacidad', en: 'privacy' },
+  // Páginas de servicio (src/data/servicePages.ts).
+  'dolor-de-espalda-y-cuello': { es: 'dolor-de-espalda-y-cuello', en: 'back-and-neck-pain' },
+  'back-and-neck-pain': { es: 'dolor-de-espalda-y-cuello', en: 'back-and-neck-pain' },
+  'tratamientos-del-dolor': { es: 'tratamientos-del-dolor', en: 'pain-treatments' },
+  'pain-treatments': { es: 'tratamientos-del-dolor', en: 'pain-treatments' },
+  'dolor-despues-de-un-accidente': { es: 'dolor-despues-de-un-accidente', en: 'car-accident-pain' },
+  'car-accident-pain': { es: 'dolor-despues-de-un-accidente', en: 'car-accident-pain' },
 };
 
 export function getLocalizedPathname(pathname: string, targetLang: Lang): string {
