@@ -24,8 +24,9 @@ export const contact = {
   addressLines: ['8706 S 700 E, Suite 102-103', 'Sandy, UT 84070'],
 };
 
-/** WhatsApp + social profiles — PLACEHOLDER. Replace with the clinic's real handles. */
-export const whatsappNumber = '34900000000';
+/** WhatsApp, solo dígitos con lada (ej. 18018493103). Vacío mientras no haya número
+ * confirmado: antes era 34900000000, un número de relleno de España que estaba en vivo. */
+export const whatsappNumber = '';
 
 /**
  * Las CINCO redes de la marca, siempre visibles, más WhatsApp (que es canal de
@@ -38,5 +39,5 @@ export const social: { name: string; icon: string; href: string; color: string }
   { name: 'TikTok', icon: 'tiktok', href: '', color: '#010101' },
   { name: 'YouTube', icon: 'youtube', href: 'https://www.youtube.com/@PainManagementER', color: '#FF0000' },
   { name: 'LinkedIn', icon: 'linkedin', href: '', color: '#0A66C2' },
-  { name: 'WhatsApp', icon: 'whatsapp', href: `https://wa.me/${whatsappNumber}`, color: '#25D366' },
+  { name: 'WhatsApp', icon: 'whatsapp', href: whatsappNumber ? `https://wa.me/${whatsappNumber}` : '', color: '#25D366' },
 ];
