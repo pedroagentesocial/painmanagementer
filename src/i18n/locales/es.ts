@@ -40,7 +40,7 @@ export const es = {
         titleA: 'Recupera tu vida,',
         titleB: 'sin que el dolor decida',
         subtitle:
-          'Tratamientos personalizados y mínimamente invasivos para el dolor crónico de espalda, articulaciones y nervios. Un equipo que escucha, diagnostica y te acompaña.',
+          'Tratamientos personalizados y mínimamente invasivos para el dolor crónico de espalda, articulaciones y nervios en Sandy, Utah. Un equipo que escucha, diagnostica y te acompaña.',
       },
       {
         eyebrow: 'Tratamientos avanzados',

@@ -37,7 +37,7 @@ export const en: typeof es = {
         titleA: 'Take your life back,',
         titleB: 'not pain’s',
         subtitle:
-          'Personalized, minimally invasive treatments for chronic back, joint and nerve pain. A team that listens, diagnoses and stays with you.',
+          'Personalized, minimally invasive treatments for chronic back, joint and nerve pain in Sandy, Utah. A team that listens, diagnoses and stays with you.',
       },
       {
         eyebrow: 'Advanced treatments',
