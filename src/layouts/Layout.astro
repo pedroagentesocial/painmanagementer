@@ -1,4 +1,5 @@
 ---
+import Ga4 from '../components/Ga4.astro';
 import '@fontsource-variable/sora';
 import '@fontsource-variable/inter';
 import '../styles/global.css';
@@ -118,6 +119,7 @@ const clinicLd = {
 
     {/* Smooth crossfade between locales (and any internal nav). */}
     <ClientRouter />
+    <Ga4 />
   </head>
   <body class="min-h-screen">
     {/* Reading progress bar (fills as the page scrolls) */}
