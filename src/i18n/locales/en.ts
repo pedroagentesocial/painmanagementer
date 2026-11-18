@@ -375,7 +375,7 @@ export const en: typeof es = {
     smsConsentTail: 'for additional details.',
     privacyNote: 'Your data is only used to handle your request. We never share it with third parties.',
     success: 'Thank you! We received your request and will contact you soon.',
-    error: 'We couldn’t send your request. Please try again in a few minutes.',
+    error: 'We couldn’t send your request. Please call us at (801) 849-3103 or try again in a few minutes.',
     errors: {
       name: 'Please enter your name (at least 2 characters).',
       email: 'Please enter a valid email address.',

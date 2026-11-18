@@ -95,8 +95,13 @@ export async function deliverLead(lead: Lead): Promise<void> {
 
   // Dev fallback: nothing configured at all → at least record the lead.
   if (ran.length === 0) {
-    console.log('[lead] no delivery channel configured, captured lead:', lead);
-    return;
+    // En desarrollo se acepta para poder probar el formulario sin credenciales.
+    // En producción NO: responder "enviado" sin canal es perder el lead en silencio.
+    if (import.meta.env.DEV) {
+      console.log('[lead] no delivery channel configured, captured lead:', lead);
+      return;
+    }
+    throw new Error('No lead delivery channel configured');
   }
 
   // Something ran but every channel that ran failed → surface to the caller.

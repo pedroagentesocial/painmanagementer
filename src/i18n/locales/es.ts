@@ -390,7 +390,7 @@ export const es = {
     smsConsentTail: 'para más detalles.',
     privacyNote: 'Tus datos solo se usan para gestionar tu solicitud. Nunca los compartimos con terceros.',
     success: '¡Gracias! Hemos recibido tu solicitud y te contactaremos pronto.',
-    error: 'No pudimos enviar tu solicitud. Inténtalo de nuevo en unos minutos.',
+    error: 'No pudimos enviar tu solicitud. Llámanos al (801) 849-3103 o inténtalo de nuevo en unos minutos.',
     errors: {
       name: 'Indícanos tu nombre (mínimo 2 caracteres).',
       email: 'Introduce un correo electrónico válido.',
