@@ -1,0 +1,13 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ServicePage from '../../components/ServicePage.astro';
+import { SERVICE_PAGES } from '../../data/servicePages';
+import { useTranslations, getLangFromUrl } from '../../i18n/utils';
+
+const copy = SERVICE_PAGES.espalda.copy.es;
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<Layout title={`${copy.title} — ${t.site.name}`} description={copy.description}>
+  <ServicePage id="espalda" />
+</Layout>
