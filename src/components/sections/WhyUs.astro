@@ -31,24 +31,7 @@ const t = useTranslations(lang);
       </h2>
       <p class="on-dark mt-5 max-w-md text-lg text-paper/75">{t.whyUs.subtitle}</p>
 
-      <div class="mt-10 flex flex-wrap gap-x-12 gap-y-6 border-t border-paper/15 pt-9">
-        {
-          t.whyUs.stats.map((stat) => (
-            <div>
-              <div
-                class="font-display text-[clamp(2.5rem,4vw,3.25rem)] font-extrabold leading-none text-clay-300"
-                data-countup
-              >
-                {stat.value}
-              </div>
-              <div class="mt-2 text-sm text-paper/60">{stat.label}</div>
-            </div>
-          ))
-        }
-      </div>
-      <p class="mt-6 inline-block rounded border border-dashed border-ochre-400/50 px-2 py-1 text-xs text-ochre-200">
-        ⚠ {t.whyUs.placeholderNote}
-      </p>
+      {/* Cifras de muestra (15+ años, 12,000+ pacientes, "94 % con menos dolor"): fuera hasta tener datos reales y verificables. */}
     </div>
 
     <ul role="list" class="divide-y divide-paper/12 border-y border-paper/12">
