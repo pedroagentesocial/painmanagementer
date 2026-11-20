@@ -1,6 +1,6 @@
 ---
 title: 'Osteoporosis: the silent disease that can cause back pain and fractures'
-seoTitle: 'Osteoporosis: the silent disease behind back pain and fractures'
+seoTitle: 'Osteoporosis: silent disease that can cause back pain, fractures'
 description: 'Nearly 1 in 5 U.S. women aged 50 and older has osteoporosis. We explain why it causes no symptoms until a bone breaks, who is most at risk, and how to protect your bones.'
 pubDate: 2026-11-12
 tags: ['Osteoporosis', 'Fractures', 'Bone health']
