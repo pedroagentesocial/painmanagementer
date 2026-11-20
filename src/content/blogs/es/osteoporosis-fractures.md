@@ -1,5 +1,6 @@
 ---
 title: 'Osteoporosis: la enfermedad silenciosa que puede causar dolor de espalda y fracturas'
+seoTitle: 'Osteoporosis: la enfermedad silenciosa que puede causar fracturas'
 description: 'Casi 1 de cada 5 mujeres de 50 años o más en EE. UU. tiene osteoporosis. Te explicamos por qué no da síntomas hasta que hay una fractura, quién tiene más riesgo y cómo proteger tus huesos.'
 pubDate: 2026-11-12
 tags: ['Osteoporosis', 'Fracturas', 'Salud ósea']

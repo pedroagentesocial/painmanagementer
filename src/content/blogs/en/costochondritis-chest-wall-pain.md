@@ -1,5 +1,6 @@
 ---
 title: 'Costochondritis: sharp chest pain that comes from the ribs, not the heart'
+seoTitle: 'Costochondritis: sharp chest pain from the ribs, not the heart'
 description: 'Costochondritis is inflammation where the ribs join the breastbone. We explain how it feels, what can trigger it, how long it usually lasts and why any new chest pain should be checked first, according to the NHS and MedlinePlus.'
 pubDate: 2026-11-20
 tags: ['Costochondritis', 'Chest pain', 'Chest wall']

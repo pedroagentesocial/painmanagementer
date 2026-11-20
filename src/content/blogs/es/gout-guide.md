@@ -1,5 +1,6 @@
 ---
 title: 'Gota: por qué aparece el dolor en el dedo gordo y cómo se controla'
+seoTitle: 'Gota: por qué duele el dedo gordo y cómo se controla'
 description: 'La gota afecta a unos 9.2 millones de adultos en EE. UU. y causa ataques de dolor intenso en las articulaciones. Te explicamos sus causas, desencadenantes y cómo se trata según las guías.'
 pubDate: 2026-11-10
 tags: ['Gota', 'Artritis', 'Dolor articular']

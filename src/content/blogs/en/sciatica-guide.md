@@ -1,5 +1,6 @@
 ---
 title: 'Sciatica: why your leg hurts, how long it lasts and when it is urgent'
+seoTitle: 'Sciatica: why your leg hurts, how long it lasts, when it''s urgent'
 description: 'Sciatica causes pain that travels from the lower back down the leg. We explain its most common causes, what helps recovery, and the warning signs that need immediate care.'
 pubDate: 2026-11-02
 tags: ['Sciatica', 'Back pain', 'Herniated disc']
