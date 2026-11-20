@@ -28,6 +28,6 @@ const articleLd = {
 };
 ---
 
-<Layout title={`${post.data.title} — ${t.site.name}`} description={post.data.description} ogType="article" jsonLd={articleLd}>
+<Layout title={`${post.data.seoTitle ?? post.data.title} — ${t.site.name}`} description={post.data.description} ogType="article" jsonLd={articleLd}>
   <BlogPost post={post} />
 </Layout>

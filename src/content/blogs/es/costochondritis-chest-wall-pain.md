@@ -1,5 +1,6 @@
 ---
 title: 'Costocondritis: dolor agudo en el pecho que viene de las costillas, no del corazón'
+seoTitle: 'Costocondritis: dolor de pecho de las costillas, no del corazón'
 description: 'La costocondritis es la inflamación de la zona donde las costillas se unen al esternón. Te explicamos cómo se siente, qué puede desencadenarla, cuánto suele durar y por qué cualquier dolor de pecho nuevo debe revisarse primero, según el NHS y MedlinePlus.'
 pubDate: 2026-11-20
 tags: ['Costocondritis', 'Dolor de pecho', 'Pared torácica']

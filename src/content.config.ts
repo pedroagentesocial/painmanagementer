@@ -13,6 +13,9 @@ const blogs = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/blogs' }),
   schema: z.object({
     title: z.string(),
+    /** Título corto solo para <title> y og:title (Google corta ~60). El H1 y el
+     *  headline del schema siguen usando `title`. */
+    seoTitle: z.string().max(65).optional(),
     description: z.string(),
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
