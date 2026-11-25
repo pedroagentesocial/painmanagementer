@@ -2,7 +2,7 @@
 title: 'Myofascial pain syndrome: muscle knots, trigger points and what helps'
 seoTitle: 'Myofascial pain syndrome: trigger points, causes and treatment'
 description: 'Myofascial pain syndrome causes ongoing muscle pain from tender trigger points that can send pain to other areas. We explain the symptoms, the causes, how it differs from fibromyalgia and the treatments, from stretching and physical therapy to trigger point injections and dry needling, according to Cleveland Clinic and HealthLink BC.'
-pubDate: 2026-11-26
+pubDate: 2026-11-25
 tags: ['Myofascial pain', 'Trigger points', 'Muscle pain']
 sources:
   - title: 'Myofascial Pain Syndrome'

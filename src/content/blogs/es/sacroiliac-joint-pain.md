@@ -2,7 +2,7 @@
 title: 'Dolor de la articulación sacroilíaca (sacroileítis): dolor lumbar y de glúteo'
 seoTitle: 'Dolor sacroilíaco (sacroileítis): síntomas, causas y tratamiento'
 description: 'Las articulaciones sacroilíacas unen la columna con la pelvis y, cuando se inflaman, pueden causar dolor en la zona lumbar, los glúteos y los muslos. Te explicamos los síntomas, las causas, cómo se diagnostica y los tratamientos, desde la fisioterapia hasta las inyecciones, la ablación por radiofrecuencia y la fusión, según Cleveland Clinic y UK HealthCare.'
-pubDate: 2026-11-26
+pubDate: 2026-11-25
 tags: ['Articulación sacroilíaca', 'Sacroileítis', 'Dolor lumbar']
 sources:
   - title: 'Sacroiliitis'

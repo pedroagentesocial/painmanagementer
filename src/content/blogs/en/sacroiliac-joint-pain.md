@@ -2,7 +2,7 @@
 title: 'Sacroiliac joint pain (sacroiliitis): low back and buttock pain explained'
 seoTitle: 'Sacroiliac joint pain: symptoms, causes and treatments'
 description: 'The sacroiliac joints connect the spine to the pelvis, and when they become inflamed they can cause pain in the low back, buttocks and thighs. We explain the symptoms, the causes, how it is diagnosed and the treatments, from physical therapy to injections, radiofrequency ablation and fusion, according to Cleveland Clinic and UK HealthCare.'
-pubDate: 2026-11-26
+pubDate: 2026-11-25
 tags: ['Sacroiliac joint', 'Sacroiliitis', 'Low back pain']
 sources:
   - title: 'Sacroiliitis'

@@ -2,7 +2,7 @@
 title: 'Síndrome de dolor miofascial: nudos musculares, puntos gatillo y qué ayuda'
 seoTitle: 'Dolor miofascial: puntos gatillo, causas y tratamiento'
 description: 'El síndrome de dolor miofascial causa dolor muscular persistente por puntos gatillo sensibles que pueden enviar el dolor a otras zonas. Te explicamos los síntomas, las causas, en qué se diferencia de la fibromialgia y los tratamientos, desde los estiramientos y la fisioterapia hasta las inyecciones en puntos gatillo y la punción seca, según Cleveland Clinic y HealthLink BC.'
-pubDate: 2026-11-26
+pubDate: 2026-11-25
 tags: ['Dolor miofascial', 'Puntos gatillo', 'Dolor muscular']
 sources:
   - title: 'Myofascial Pain Syndrome'
