@@ -58,7 +58,7 @@ const posts = await getPosts(lang);
             </li>
           ))}
         </ul>
-      <BlogPager locale={lang === 'es' ? 'es' : 'en'} />
+      <BlogPager locale={lang === 'es' ? 'es' : 'en'} perPage={8} />
       </>
     )
   }
